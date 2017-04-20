@@ -35,3 +35,4 @@ def smokeAndDrink(text,smokeResult):
             smokeResult['negative']= smokeResult['negative'] + 1
     return smokeResult
 smokeAndDrink(text,smokeResult)
+print(smokeResult)
