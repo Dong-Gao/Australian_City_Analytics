@@ -129,6 +129,36 @@ if isMaster:
     'access_token' : '854237152212688896-CsaNyvQ0eIkfrDuz5TOZVCzdFpv6Peo',
     'access_secret' : '6BhuokvlK1LvRH7BLCS7ZkPG2lql5TPV8SXojfeVkRc0i'})
 
+    accounts.append({
+    'consumer_key' : 'BISq0gnPO5sKPmSGIDDX8CoNi',
+    'consumer_secret' : 'wqwZPU7Eq1YBxSTGagFoy5OHcuYyoJ7cs6Wrg7yz0C8gvki6kU',
+    'access_token' : '854237152212688896-sjbpQYfsArfzvCKTmSqxjt5d5Lj4Ui4',
+    'access_secret' : '7AP93iXzTNPlJdtccQLkCb047SPXdJhJ2mIr3gwR0KkUK'})
+
+    accounts.append({
+    'consumer_key' : '0hDkVWYVtI3FbPBO0eabByMJr',
+    'consumer_secret' : 'IM4IBDHosLw1GrG5rX0pVQy9vv3wxwZdGS630lD7YPpVCZ21n2',
+    'access_token' : '854237152212688896-lGvQMrSPKA3I8daYWR4q20TCNi5oEah',
+    'access_secret' : 'UwJ2GjZjAlJmcuHhSk32WPo35RTTk8DCqhG7A3jiudUqj'})
+
+    accounts.append({
+    'consumer_key' : 'ZMcJlgB2POlzVbqQVgwBfMes5',
+    'consumer_secret' : 'tL3Ch94uEORN7dZrrWEoKZdjVPiMYscE0Am5a1MqUyskFmXTwD',
+    'access_token' : '2575592904-DFVFcTEZ7bB4qVCAanC32jiGJtU5LP02eOuESFK',
+    'access_secret' : '0HsSuWz3MpKMqWYxSod77WVW5WXX10Trq13z5Nry348bN'})
+
+    accounts.append({
+    'consumer_key' : '2c56wTHKAS21gA4UAZzkkwzqZ',
+    'consumer_secret' : 'fxAfJHIBqHGwL0f42zlzUEtJUmsxyHAD8MQ7gEqYqaau7KZyxJ',
+    'access_token' : '2575592904-mQN46mJwpSMj9CW5jakd79c5T34x7DjBApSf4W5',
+    'access_secret' : 'bYFLbECe6EjNvKM6xm4BEzA6IZk00HZ5XtaFwJ4GxfhGp'})
+
+    accounts.append({
+    'consumer_key' : 'QVpJC7lLXt0VqSRiB4oWOxLux',
+    'consumer_secret' : 'r0rQgZku1qtZtdXV1z4luOh2yiWNPWGxhdfxhl0RPyqkASCJxc',
+    'access_token' : '2575592904-rjouP5t0EJ1iu7vFM3kU5DBKLAZHA94YzSvtau6',
+    'access_secret' : 'gql0ekQiHWx5rQmurJKFp9EiNrvl6MJ7mF04rqFBwGGYx'})
+
     # amyxie1994
     accounts.append({
     'consumer_key' : 'gbqEmrklOoqFEpvEFfYFmufqF',
