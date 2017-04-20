@@ -4,7 +4,8 @@ import couchdb
 
 server = couchdb.Server()
 text = server['text']
-smokeResult={'negative':0, 'positive':0}
+loc = server['location']
+smokeResult={'Melbourne':0,'Sydney':0,'Peth':0,'Darwin':0,'Canberra':0,'Hobart':0,'Adelaide':0,'Brisbane':0}
 def get_train():
     train=[]
     file=open('smoke.txt', 'r', encoding='utf-8')
@@ -30,9 +31,10 @@ def smokeAndDrink(text,smokeResult):
     if find>0:
         score=SentimentAnalysis.senti_analy(input)
         if score>=0:
-            smokeResult['positive']= smokeResult['positive'] + 1
-        else:
-            smokeResult['negative']= smokeResult['negative'] + 1
+            for l in smokeResult:
+                if l==loc:
+                    smokeResult[l]=smokeResult[l]+1
+                    break
     return smokeResult
 smokeAndDrink(text,smokeResult)
 print(smokeResult)
