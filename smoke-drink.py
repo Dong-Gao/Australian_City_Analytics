@@ -1,6 +1,9 @@
 import re
 import SentimentAnalysis
+import couchdb
 
+server = couchdb.Server()
+text = server['text']
 smokeResult={'negative':0, 'positive':0}
 def get_train():
     train=[]
@@ -16,9 +19,8 @@ def score2dic(score):
         smokeResult['positive']= smokeResult['positive'] + 1
     else:
         smokeResult['negative']= smokeResult['negative'] + 1
-def smokeAndDrink(input):
+def smokeAndDrink(text):
     find = 0
-    text=input['text']
     trains=get_train()
     for t in trains:
         if t in text:
@@ -28,3 +30,4 @@ def smokeAndDrink(input):
     if find>0:
         score=senti_analy(input)
         score2dic(score)
+smokeAndDrink（text）
