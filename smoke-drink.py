@@ -1,4 +1,5 @@
 import re
+import SentimentAnalysis
 
 smokeResult={'negative':0, 'positive':0}
 def get_train():
