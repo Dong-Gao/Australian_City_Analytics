@@ -30,8 +30,8 @@ def smokeAndDrink(text,smokeResult):
     if find>0:
         score=SentimentAnalysis.senti_analy(input)
         if score>=0:
-        smokeResult['positive']= smokeResult['positive'] + 1
+            smokeResult['positive']= smokeResult['positive'] + 1
         else:
-        smokeResult['negative']= smokeResult['negative'] + 1
+            smokeResult['negative']= smokeResult['negative'] + 1
     return smokeResult
-smokeAndDrink（text,smokeResult）
+smokeAndDrink(text,smokeResult)
