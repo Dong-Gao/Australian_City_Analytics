@@ -19,7 +19,7 @@ def score2dic(score):
         smokeResult['positive']= smokeResult['positive'] + 1
     else:
         smokeResult['negative']= smokeResult['negative'] + 1
-def smokeAndDrink(text):
+def smokeAndDrink(text,smokeResult):
     find = 0
     trains=get_train()
     for t in trains:
@@ -28,6 +28,10 @@ def smokeAndDrink(text):
         else:
             find=find
     if find>0:
-        score=senti_analy(input)
-        score2dic(score)
-smokeAndDrink（text）
+        score=SentimentAnalysis.senti_analy(input)
+        if score>=0:
+        smokeResult['positive']= smokeResult['positive'] + 1
+        else:
+        smokeResult['negative']= smokeResult['negative'] + 1
+    return smokeResult
+smokeAndDrink（text,smokeResult）
