@@ -6,7 +6,10 @@ tweet = couchdb.Server('#######')
 db=couch['######']
 
 
-smokeResult={'Melbourne':0,'Sydney':0,'Peth':0,'Darwin':0,'Canberra':0,'Hobart':0,'Adelaide':0,'Brisbane':0}
+smokeResult={'Melbourne':{'positive':0,'negative':0},'Sydney':{'positive':0,'negative':0},
+             'Peth':{'positive':0,'negative':0},'Darwin':{'positive':0,'negative':0},
+             'Canberra':{'positive':0,'negative':0},'Hobart':{'positive':0,'negative':0},
+             'Adelaide':{'positive':0,'negative':0},'Brisbane':{'positive':0,'negative':0}}
 def get_train():
     train=[]
     file=open('smoke.txt', 'r', encoding='utf-8')
@@ -32,13 +35,15 @@ def find(tweet,smokeResult):
             find=find
     if find>0:
         score=SentimentAnalysis.senti_analy(input)
-        if score>=0:
-            for l in smokeResult:
-                if l==loc:
-                    smokeResult[l]=smokeResult[l]+1
-                    break
+        
+        for l in smokeResult:
+            if l==loc:
+                if score>=0:
+                    smokeResult[l]['positive']=smokeResult[l]['positive']+1
+                else if score<0:
+                    smokeResult[l]['negative']=smokeResult[l]['negative']+1
     return smokeResult
-#########################main###############################################
+#########################  MAIN  ###############################################
 def execute():
     trains=get_train()
     for tweet in db:
