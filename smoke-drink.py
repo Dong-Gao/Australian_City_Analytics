@@ -2,9 +2,9 @@ import re
 import SentimentAnalysis
 import couchdb
 
-server = couchdb.Server()
-text = server['text']
-loc = server['location']
+tweet = couchdb.Server()
+#text = server['text']
+#loc = server['location']
 smokeResult={'Melbourne':0,'Sydney':0,'Peth':0,'Darwin':0,'Canberra':0,'Hobart':0,'Adelaide':0,'Brisbane':0}
 def get_train():
     train=[]
@@ -20,7 +20,9 @@ def score2dic(score):
         smokeResult['positive']= smokeResult['positive'] + 1
     else:
         smokeResult['negative']= smokeResult['negative'] + 1
-def smokeAndDrink(text,smokeResult):
+def smokeAndDrink(tweet,smokeResult):
+    text=server['text']
+    loc=server['location']
     find = 0
     trains=get_train()
     for t in trains:
