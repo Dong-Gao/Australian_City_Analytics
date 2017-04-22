@@ -19,9 +19,10 @@ url_regex = re.compile(r"(http|https|ftp)://[a-zA-Z0-9\./]+")
 word_bound_regex = re.compile(r"\W+")
 
 # Repeating words like happyyyyy
-rpt_regex = re.compile(r"(.)\1{1,}", re.IGNORECASE)
+rpt_regex = re.compile(r"(.)\1{1,}(.)\2{1,}", re.IGNORECASE)
 def rpt_repl(match):
-    return match.group(1)+match.group(1)
+    process = match.group(1) + match.group(1) + match.group(2)
+    return process
 
 # Emoticons
 emoticons = \
@@ -119,7 +120,7 @@ def process_punctuations(text):
     return re.sub( word_bound_regex , punctuations_repl, text )
 
 def process_repeatings(text):
-    return re.sub(rpt_regex, rpt_repl, text)[:-1]
+    return re.sub(rpt_regex, rpt_repl, text)
 
 #This function can count the number of query occured in a tweet.
 def process_query_term(text, query):
@@ -161,7 +162,7 @@ def sentiment_analysis(tweet_text, sentiment_list):
     return sentiment_list
 
 #The below part is used to test!
-tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(."]
+tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(.", "i am so happpppyyyyyyy!"]
 
 
 for tweet_text in tweets:
@@ -170,5 +171,6 @@ for tweet_text in tweets:
     tweet_text = process_emojis(tweet_text)
     tweet_text = tweet_text.replace('\'','')
     tweet_text = process_repeatings(tweet_text)
+    print(tweet_text)
     score = SentimentIntensityAnalyzer().polarity_scores(tweet_text)
     print(score)
