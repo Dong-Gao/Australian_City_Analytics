@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Australian City Analytics</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]>
+    <script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
+</head>
+<body class="homepage">
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <div id="header-wrapper">
+        <div id="header">
+
+            <!-- Logo -->
+            <h1><a href="index.html">Australian City Analytics</a></h1>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li  class="current"><a href="scenario-one.html">Scenario One</a></li>
+                    <li><a href="scenario-two.html">Scenario Two</a></li>
+                    <li><a href="scebario-three.html">Scenario Three</a></li>
+                    <li><a href="team-member.html">Team Members</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+
+
+    <!-- Main -->
+    <div id="main-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="8u 12u(mobile)">
+                    <!--****************************-->
+
+
+
+
+
+
+                    <head>
+                        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+                        <script type='text/javascript'>
+                            google.charts.load('current', {packages: ['corechart', 'bar']});
+                            google.charts.setOnLoadCallback(drawMultSeries);
+
+                            function drawMultSeries() {
+                                var data = new google.visualization.DataTable();
+                                data.addColumn('timeofday', 'Time of Day');
+                                data.addColumn('number', 'Motivation Level');
+                                data.addColumn('number', 'Energy Level');
+
+                                data.addRows([
+                                    [{v: [8, 0, 0], f: '8 am'}, 1, .25],
+                                    [{v: [9, 0, 0], f: '9 am'}, 2, .5],
+                                    [{v: [10, 0, 0], f:'10 am'}, 3, 1],
+                                    [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
+                                    [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
+                                    [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
+                                    [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
+                                    [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
+                                    [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
+                                    [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
+                                ]);
+
+                                var options = {
+                                    title: 'Motivation and Energy Level Throughout the Day',
+                                    hAxis: {
+                                        title: 'Time of Day',
+                                        format: 'h:mm a',
+                                        viewWindow: {
+                                            min: [7, 30, 0],
+                                            max: [17, 30, 0]
+                                        }
+                                    },
+                                    vAxis: {
+                                        title: 'Rating (scale of 1-10)'
+                                    }
+                                };
+
+                                var chart = new google.visualization.ColumnChart(
+                                        document.getElementById('chart_div'));
+
+                                chart.draw(data, options);
+                            }
+                        </script>
+                    </head>
+                    <body>
+                    <div id="chart_div" style="width: auto; height: auto;"></div>
+                    </body>
+
+
+
+
+
+                    <!--****************************-->
+                </div>
+
+                <div class="4u 12u(mobile)">
+
+                    <!-- Sidebar -->
+                    <section class="box">
+                        <a class="image featured"><img src="images/001.png" alt=""/></a>
+                        <header>
+                            <h3>Beer analytics</h3>
+                        </header>
+                        <p>Lorem ipsum dolor sit amet sit veroeros sed amet blandit consequat veroeros lorem blandit
+                            adipiscing et feugiat phasellus tempus dolore ipsum lorem dolore.</p>
+                        <p>
+                            Elementum odio duis semper risus et lectus commodo fringilla. Maecenas sagittis convallis
+                            justo vel mattis.
+                            placerat, nunc diam iaculis massa, et aliquet nibh leo non nisl vitae porta lobortis, enim
+                            neque fringilla nunc,
+                            eget faucibus lacus sem quis nunc suspendisse nec lectus sit amet augue rutrum vulputate ut
+                            ut mi. Aenean
+                            elementum, mi sit amet porttitor lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Lorem ipsum dolor
+                            sit amet nullam consequat feugiat dolore tempus.
+                        </p>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <div id="footer-wrapper">
+        <section id="footer" class="container">
+            <div class="row">
+                <div class="12u">
+
+                    <!-- Copyright -->
+                    <div id="copyright">
+                        <ul class="links">
+                            <li>&copy; Team balabal. All rights reserved.</li>
+                            <li>Design: <a href="ip">IP</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.dropotron.min.js"></script>
+<script src="assets/js/skel.min.js"></script>
+<script src="assets/js/skel-viewport.min.js"></script>
+<script src="assets/js/util.js"></script>
+<!--[if lte IE 8]>
+<script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
