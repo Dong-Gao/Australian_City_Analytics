@@ -34,7 +34,7 @@ def find(tweet,smokeResult):
         else:
             find=find
     if find>0:
-        score=SentimentAnalysis.senti_analy(input)
+        score=SentimentAnalysis.sentiment_score(text)
         
         for l in smokeResult:
             if l==loc:
