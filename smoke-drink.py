@@ -2,9 +2,6 @@ import re
 import SentimentAnalysis
 import couchdb
 
-tweet = couchdb.Server('#######')
-db=couch['######']
-
 
 smokeResult={'Melbourne':{'positive':0,'negative':0},'Sydney':{'positive':0,'negative':0},
              'Peth':{'positive':0,'negative':0},'Darwin':{'positive':0,'negative':0},
@@ -43,9 +40,4 @@ def find(tweet,smokeResult):
                 else if score<0:
                     smokeResult[l]['negative']=smokeResult[l]['negative']+1
     return smokeResult
-#########################  MAIN  ###############################################
-def execute():
-    trains=get_train()
-    for tweet in db:
-        find(tweet,smokeResult)
-    print(smokeResult)
+
