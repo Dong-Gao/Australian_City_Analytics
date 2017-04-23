@@ -8,35 +8,63 @@ Korean = ["Hyundai", "Kia", "Daewoo"]
 Chinese = ["Geely", "Chery", "Hongqi", "Brilliance", "BYD"]
 Australian = ["Honden"]
 
-
+country_list={'Melbourne':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Sydney':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Peth':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Darwin':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Canberra':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Hobart':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Adelaide':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
+          'Brisbane':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+                      "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0}}
+vehicle={'Melbourne':0,'Sydney':0,'Peth':0,'Darwin':0,'Canberra':0,'Hobart':0,'Adelaide':0,'Brisbane':0}
 # tweet format should be dict
 # list format should be dict
-def vehicle_manufacturer_country(tweet_text, country_list):
-    for brand in German:
-        if brand in tweet_text:
-            country_list["German"] = country_list["German"] + 1
-    for brand in Italian:
-        if brand in tweet_text:
-            country_list["Italian"] = country_list["Italian"] + 1
-    for brand in French:
-        if brand in tweet_text:
-            country_list["French"] = country_list["French"] + 1
-    for brand in British:
-        if brand in tweet_text:
-            country_list["British"] = country_list["British"] + 1
-    for brand in American:
-        if brand in tweet_text:
-            country_list["American"] = country_list["American"] + 1
-    for brand in Japanese:
-        if brand in tweet_text:
-            country_list["Japanese"] = country_list["Japanese"] + 1
-    for brand in Korean:
-        if brand in tweet_text:
-            country_list["Korean"] = country_list["Korean"] + 1
-    for brand in Chinese:
-        if brand in tweet_text:
-            country_list["Chinese"] = country_list["Chinese"] + 1
-    for brand in Australian:
-        if brand in tweet_text:
-            country_list["Australian"] = country_list["Australian"] + 1
+def vehicle_manufacturer_country(tweet, country_list):
+    text=tweet['text']
+    loc=tweet['location']
+    for l in country_list:
+        if l=loc:
+            for brand in German:
+                if brand in tweet_text:
+                    country_list[l]["German"] = country_list[l]["German"] + 1
+            for brand in Italian:
+                if brand in tweet_text:
+                    country_list[l]["Italian"] = country_list[l]["Italian"] + 1
+            for brand in French:
+                if brand in tweet_text:
+                    country_list[l]["French"] = country_list[l]["French"] + 1
+            for brand in British:
+                if brand in tweet_text:
+                    country_list[l]["British"] = country_list[l]["British"] + 1
+            for brand in American:
+                if brand in tweet_text:
+                    country_list[l]["American"] = country_list[l]["American"] + 1
+            for brand in Japanese:
+                if brand in tweet_text:
+                    country_list[l]["Japanese"] = country_list[l]["Japanese"] + 1
+            for brand in Korean:
+                if brand in tweet_text:
+                    country_list[l]["Korean"] = country_list[l]["Korean"] + 1
+            for brand in Chinese:
+                if brand in tweet_text:
+                    country_list[l]["Chinese"] = country_list[l]["Chinese"] + 1
+            for brand in Australian:
+                if brand in tweet_text:
+                    country_list[l]["Australian"] = country_list[l]["Australian"] + 1
     return country_list
+def vehicle(vehicle):
+    server = couchdb.Server('placeholer')
+    db=server['placeholer']
+    for tweet in db:
+        vehicle_manufacturer_country(tweet,country_list)
+    for i in country_list:
+        vehicle[i]=max(country_list[i])
+    return vehicle
