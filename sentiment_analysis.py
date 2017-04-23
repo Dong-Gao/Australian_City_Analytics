@@ -27,23 +27,23 @@ def rpt_repl(match):
 # Emoticons
 emoticons = \
     [
-        ('SMILE', [':-)',':)','(:','(-:',';o)',':o)',':-3',':3',':->',':>','8-)','8)',':c)',':^)','=)']),
-        ('LAUGH', [':-D',':D', 'X-D', 'x-D', 'XD', 'xD', '=D', '8-D', '8D', '=3', 'B^D', ":'‑)", ":')"]),
-        ('LOVE', ['<3', ':\*', ]),
-        ('GRIN', [';-)', ';)', ';-D', ';D', '(;', '(-;','\*-)','\*)',';‑]',';]',';^)',':‑,']),
-        ('FRUSTRATE', [':o(','>:o(',':-(', ':(', '):', ')-:', ':c',':‑<','>:(']),
-        ('CRY', [':,(', ":'(", ':\"(', ':((']),
+        (' SMILE ', [':-)',':)','(:','(-:',';o)',':o)',':-3',':3',':->',':>','8-)','8)',':c)',':^)','=)']),
+        (' LAUGH ', [':-D',':D', 'X-D', 'x-D', 'XD', 'xD', '=D', '8-D', '8D', '=3', 'B^D', ":'‑)", ":')"]),
+        (' LOVE ', ['<3', ':\*', ]),
+        (' GRIN ', [';-)', ';)', ';-D', ';D', '(;', '(-;','\*-)','\*)',';‑]',';]',';^)',':‑,']),
+        (' FRUSTRATE ', [':o(','>:o(',':-(', ':(', '):', ')-:', ':c',':‑<','>:(']),
+        (' CRY ', [':,(', ":'(", ':\"(', ':((']),
     ]
 
 
 emojis = \
     [
-        ('SMILE',['\\xF0\\x9F\\x98\\x81', '\\xF0\\x9F\\x98\\x82', '\\xF0\\x9F\\x98\\x83','\\xF0\\x9F\\x98\\x84', '\\xF0\\x9F\\x98\\x86', '\\xF0\\x9F\\x98\\x8A', '\\xF0\\x9F\\x98\\x8B','\\xF0\\x9F\\x98\\x8C', '\\xF0\\x9F\\x98\\x8D','\\xF0\\x9F\\x98\\x80','\\xF0\\x9F\\x98\\x87','\\xF0\\x9F\\x98\\x87','\\xF0\\x9F\\x98\\x9B','\\xF0\\x9F\\x98\\xB8','\\xF0\\x9F\\x98\\xB9','\\xF0\\x9F\\x98\\xBA', '\\xF0\\x9F\\x98\\x80','\\xF0\\x9F\\x98\\x87','\\xF0\\x9F\\x98\\x8E']),
-        ('LAUGH', ['\\xF0\\x9F\\x98\\x9C', '\\xF0\\x9F\\x98\\x9D', '\\xF0\\x9F\\x98\\x9B']),
-        ('LOVE', ['\\xF0\\x9F\\x98\\x98', '\\xF0\\x9F\\x98\\x9A', '\\xF0\\x9F\\x98\\x97','\\xF0\\x9F\\x98\\x99', '\\xF0\\x9F\\x98\\xBB','\\xF0\\x9F\\x98\\xBD','\\xF0\\x9F\\x98\\x97','\\xF0\\x9F\\x98\\x99']),
-        ('GRIN', ['\\xF0\\x9F\\x98\\x89']),
-        ('FRUSTRATE', ['\\xF0\\x9F\\x98\\x94', '\\xF0\\x9F\\x98\\x96', '\\xF0\\x9F\\x98\\x9E', '\\xF0\\x9F\\x98\\xA0', '\\xF0\\x9F\\x98\\xA1', '\\xF0\\x9F\\x98\\xA3', '\\xF0\\x9F\\x98\\xA8', '\\xF0\\x9F\\x98\\xA9', '\\xF0\\x9F\\x98\\xAB','\\xF0\\x9F\\x98\\xB0', '\\xF0\\x9F\\x98\\x9F','\\xF0\\x9F\\x98\\xA7']),
-        ('CRY', ['\\xF0\\x9F\\x98\\xA2', '\\xF0\\x9F\\x98\\xAD', '\\xF0\\x9F\\x98\\xB9', '\\xF0\\x9F\\x98\\xBF']),
+        (' SMILE ',['\\xF0\\x9F\\x98\\x81', '\\xF0\\x9F\\x98\\x82', '\\xF0\\x9F\\x98\\x83','\\xF0\\x9F\\x98\\x84', '\\xF0\\x9F\\x98\\x86', '\\xF0\\x9F\\x98\\x8A', '\\xF0\\x9F\\x98\\x8B','\\xF0\\x9F\\x98\\x8C', '\\xF0\\x9F\\x98\\x8D','\\xF0\\x9F\\x98\\x80','\\xF0\\x9F\\x98\\x87','\\xF0\\x9F\\x98\\x87','\\xF0\\x9F\\x98\\x9B','\\xF0\\x9F\\x98\\xB8','\\xF0\\x9F\\x98\\xB9','\\xF0\\x9F\\x98\\xBA', '\\xF0\\x9F\\x98\\x80','\\xF0\\x9F\\x98\\x87','\\xF0\\x9F\\x98\\x8E']),
+        (' LAUGH', ['\\xF0\\x9F\\x98\\x9C', '\\xF0\\x9F\\x98\\x9D', '\\xF0\\x9F\\x98\\x9B']),
+        (' LOVE ', ['\\xF0\\x9F\\x98\\x98', '\\xF0\\x9F\\x98\\x9A', '\\xF0\\x9F\\x98\\x97','\\xF0\\x9F\\x98\\x99', '\\xF0\\x9F\\x98\\xBB','\\xF0\\x9F\\x98\\xBD','\\xF0\\x9F\\x98\\x97','\\xF0\\x9F\\x98\\x99']),
+        (' GRIN ', ['\\xF0\\x9F\\x98\\x89']),
+        (' FRUSTRATE ', ['\\xF0\\x9F\\x98\\x94', '\\xF0\\x9F\\x98\\x96', '\\xF0\\x9F\\x98\\x9E', '\\xF0\\x9F\\x98\\xA0', '\\xF0\\x9F\\x98\\xA1', '\\xF0\\x9F\\x98\\xA3', '\\xF0\\x9F\\x98\\xA8', '\\xF0\\x9F\\x98\\xA9', '\\xF0\\x9F\\x98\\xAB','\\xF0\\x9F\\x98\\xB0', '\\xF0\\x9F\\x98\\x9F','\\xF0\\x9F\\x98\\xA7']),
+        (' CRY ', ['\\xF0\\x9F\\x98\\xA2', '\\xF0\\x9F\\x98\\xAD', '\\xF0\\x9F\\x98\\xB9', '\\xF0\\x9F\\x98\\xBF']),
     ]
 
 
@@ -144,13 +144,19 @@ def count_emojis(text):
         count += len(re.findall(regx, text) )
     return count
 
-def sentiment_analysis(tweet_text, sentiment_list):
+
+def sentiment_score(tweet_text):
     tweet_text = process_urls(tweet_text)
     tweet_text = process_emoticons(tweet_text)
     tweet_text = process_emojis(tweet_text)
-    tweet_text = tweet_text.replace('\'','')
+    tweet_text = tweet_text.replace('\'', '')
     tweet_text = process_repeatings(tweet_text)
     score = SentimentIntensityAnalyzer().polarity_scores(tweet_text)
+    return score
+
+
+def sentiment_analysis(tweet_text, sentiment_list):
+    score = sentiment_score(tweet_text)
     if score['compound'] == 0:
         sentiment_list['neutral'] += 1
     elif score['compound'] > 0:
