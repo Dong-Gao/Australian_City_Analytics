@@ -41,4 +41,10 @@ def find(tweet,smokeResult):
                 else if score<0:
                     smokeResult[l]['negative']=smokeResult[l]['negative']+1
     return smokeResult
-
+def smoke_Drink(smokeResult):
+    server = couchdb.Server('placeholer')
+    db=server['placeholer']
+    for tweet in db:
+        find(tweet,smokeResult)
+    return smokeResult
+    
