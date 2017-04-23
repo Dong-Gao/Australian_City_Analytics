@@ -155,7 +155,7 @@ emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'am
           'Brisbane':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}}}
 
 
-def sentiment_score(tweet_text, ):
+def sentiment_score(tweet_text):
     tweet_text = process_urls(tweet_text)
     tweet_text = process_emoticons(tweet_text)
     tweet_text = process_emojis(tweet_text)
@@ -183,15 +183,15 @@ def sentiment_analysis(tweet_text, sentiment_score):
     return sentiment_score
 
 #The below part is used to test!
-tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(.", "i am so happpppyyyyyyy!"]
+#tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(.", "i am so happpppyyyyyyy!"]
 
 
-for tweet_text in tweets:
-    tweet_text = process_urls(tweet_text)
-    tweet_text = process_emoticons(tweet_text)
-    tweet_text = process_emojis(tweet_text)
-    tweet_text = tweet_text.replace('\'','')
-    tweet_text = process_repeatings(tweet_text)
-    print(tweet_text)
-    score = SentimentIntensityAnalyzer().polarity_scores(tweet_text)
-    print(score)
+#for tweet_text in tweets:
+    #tweet_text = process_urls(tweet_text)
+    #tweet_text = process_emoticons(tweet_text)
+    #tweet_text = process_emojis(tweet_text)
+    #tweet_text = tweet_text.replace('\'','')
+    #tweet_text = process_repeatings(tweet_text)
+    #print(tweet_text)
+    #score = SentimentIntensityAnalyzer().polarity_scores(tweet_text)
+    #print(score)
