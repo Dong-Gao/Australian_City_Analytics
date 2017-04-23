@@ -66,4 +66,32 @@ beer={'Melbourne':{"Snow": 0, "Tsingtao": 0, "Bud Light": 0, "Budweiser": 0, "Sk
                     "Carlton Draught": 0, "Corona Extra": 0, "Toohey’s New": 0, "Toohey’s Extra Dry": 0,
                     "Carlton Mid Strength": 0, "Crown Lager": 0, "Oettinger": 0}}
 
-for tweet in db:
+
+
+
+
+emotionResult={'Melbourne':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Sydney':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Peth':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Darwin':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Canberra':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Hobart':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Adelaide':{'0-6':0,'6-12':0,'12-18':0,'18-24':0},
+          'Brisbane':{'0-6':0,'6-12':0,'12-18':0,'18-24':0}}
+def emotion(tweet,emotion):
+    for i in emotionResult:
+        emotionResult[i]['0-6']=emotionScore[i]['0-6']['total']/emotionScore[i]['0-6']['amount']
+        emotionResult[i]['6-12'] = emotionScore[i]['6-12']['total'] / emotionScore[i]['6-12']['amount']
+        emotionResult[i]['12-18'] = emotionScore[i]['12-18']['total'] / emotionScore[i]['12-18']['amount']
+        emotionResult[i]['12-18'] = emotionScore[i]['0-6']['total'] / emotionScore[i]['12-18']['amount']
+    return  emotionResult
+          
+
+          
+          
+          
+          
+
+
+          
+      
