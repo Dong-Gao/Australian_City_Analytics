@@ -101,10 +101,10 @@ def process_hashtags(text):
     return re.sub(hash_regex, hash_repl, text)
 
 def process_handles(text):
-    return re.sub(hndl_regex, hndl_repl, text )
+    return re.sub(hndl_regex, hndl_repl, text)
 
 def process_urls(text):
-    return re.sub(url_regex, '', text )
+    return re.sub(url_regex, '', text)
 
 def process_emoticons(text):
     for (repl, regx) in emoticons_regex :
@@ -117,7 +117,7 @@ def process_emojis(text):
     return text
 
 def process_punctuations(text):
-    return re.sub( word_bound_regex , punctuations_repl, text )
+    return re.sub( word_bound_regex , punctuations_repl, text)
 
 def process_repeatings(text):
     return re.sub(rpt_regex, rpt_repl, text)
@@ -125,27 +125,37 @@ def process_repeatings(text):
 #This function can count the number of query occured in a tweet.
 def process_query_term(text, query):
     query_regex = "|".join([ re.escape(q) for q in query])
-    return re.sub(query_regex, '__QUER', text, flags=re.IGNORECASE )
+    return re.sub(query_regex, '__QUER', text, flags=re.IGNORECASE)
 
 def count_handles(text):
-    return len(re.findall(hndl_regex, text) )
+    return len(re.findall(hndl_regex, text))
 def count_hashtags(text):
-    return len(re.findall(hash_regex, text) )
+    return len(re.findall(hash_regex, text))
 def count_urls(text):
-    return len(re.findall(url_regex, text) )
+    return len(re.findall(url_regex, text))
 def count_emoticons(text):
     count = 0
     for (repl, regx) in emoticons_regex :
-        count += len(re.findall(regx, text) )
+        count += len(re.findall(regx, text))
     return count
 def count_emojis(text):
     count = 0
     for (repl, regx) in emojis_regex :
-        count += len(re.findall(regx, text) )
+        count += len(re.findall(regx, text))
     return count
 
 
-def sentiment_score(tweet_text):
+emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Sydney':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Peth':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Darwin':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Canberra':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Hobart':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Adelaide':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Brisbane':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}}}
+
+
+def sentiment_score(tweet_text, ):
     tweet_text = process_urls(tweet_text)
     tweet_text = process_emoticons(tweet_text)
     tweet_text = process_emojis(tweet_text)
@@ -155,17 +165,22 @@ def sentiment_score(tweet_text):
     return score
 
 
-def sentiment_analysis(tweet_text, sentiment_list):
-    score = sentiment_score(tweet_text)
-    if score['compound'] == 0:
-        sentiment_list['neutral'] += 1
-    elif score['compound'] > 0:
-        sentiment_list['positive'] += 1
-        sentiment_list['postive_count'] += score['compound']
+def sentiment_analysis(tweet_text, sentiment_score):
+    score = sentiment_score(tweet_text['text'])
+    city = tweet_text['location']
+    if 0 <= tweet_text['time'] < 6:
+        sentiment_score[city]['0-6']['total'] += score['compound']
+        sentiment_score[city]['0-6']['amount'] += 1
+    elif 6 <= tweet_text['time'] < 12:
+        sentiment_score[city]['6-12']['total'] += score['compound']
+        sentiment_score[city]['6-12']['amount'] += 1
+    elif 12 <= tweet_text['time'] < 18:
+        sentiment_score[city]['12-18']['total'] += score['compound']
+        sentiment_score[city]['12-18']['amount'] += 1
     else:
-        sentiment_list['negative'] += 1
-        sentiment_list['negative_count'] += score['compound']
-    return sentiment_list
+        sentiment_score[city]['18-24']['total'] += score['compound']
+        sentiment_score[city]['18-24']['amount'] += 1
+    return sentiment_score
 
 #The below part is used to test!
 tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(.", "i am so happpppyyyyyyy!"]
