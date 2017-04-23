@@ -1,14 +1,6 @@
-German = ["Mercedes-Benz", "Audi", "Volkswagen", "BMW", "Opel", "Porsche"]
-Italian = ["Fiat", "Lancia", "Alfa Romeo", "Lamborghini", "Maserati", "Ferrari"]
-French = ["Citroen", "Renault", "Bugatti", "Alpine", "Peugeot"]
-British = ["McLaren", "Aston Martin", "Vauxhall", "Bentley", "Rolls-Royce", "Land Rover", "Mini"]
-American = ["Chrysler", "Dodge", "Jeep", "Chevrolet", "Buick", "GMC", "Cadillac", "Lincoln", "Ford"]
-Japanese = ["Honda", "Toyota", "Suzuki", "Lexus", "Infiniti", "Mazda", "Mitsubishi", "Nissan"]
-Korean = ["Hyundai", "Kia", "Daewoo"]
-Chinese = ["Geely", "Chery", "Hongqi", "Brilliance", "BYD"]
-Australian = ["Honden"]
 
-country_list={'Melbourne':{"German": 0, "Italian": 0, "French": 0, "British": 0,
+def country_list_data():
+    country_list={'Melbourne':{"German": 0, "Italian": 0, "French": 0, "British": 0,
                       "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
           'Sydney':{"German": 0, "Italian": 0, "French": 0, "British": 0,
                       "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
@@ -24,9 +16,20 @@ country_list={'Melbourne':{"German": 0, "Italian": 0, "French": 0, "British": 0,
                       "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
           'Brisbane':{"German": 0, "Italian": 0, "French": 0, "British": 0,
                       "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0}}
+    return country_list
 # tweet format should be dict
 # list format should be dict
-def vehicle_manufacturer_country(tweet, country_list):
+def vehicle_manufacturer_country(tweet,country_list):
+    German = ["Mercedes-Benz", "Audi", "Volkswagen", "BMW", "Opel", "Porsche"]
+    Italian = ["Fiat", "Lancia", "Alfa Romeo", "Lamborghini", "Maserati", "Ferrari"]
+    French = ["Citroen", "Renault", "Bugatti", "Alpine", "Peugeot"]
+    British = ["McLaren", "Aston Martin", "Vauxhall", "Bentley", "Rolls-Royce", "Land Rover", "Mini"]
+    American = ["Chrysler", "Dodge", "Jeep", "Chevrolet", "Buick", "GMC", "Cadillac", "Lincoln", "Ford"]
+    Japanese = ["Honda", "Toyota", "Suzuki", "Lexus", "Infiniti", "Mazda", "Mitsubishi", "Nissan"]
+    Korean = ["Hyundai", "Kia", "Daewoo"]
+    Chinese = ["Geely", "Chery", "Hongqi", "Brilliance", "BYD"]
+    Australian = ["Honden"]
+
     text=tweet['text']
     loc=tweet['location']
     for l in country_list:
@@ -60,6 +63,7 @@ def vehicle_manufacturer_country(tweet, country_list):
                     country_list[l]["Australian"] = country_list[l]["Australian"] + 1
     return country_list
 def vehicle(vehicle):
+    country_list=country_list_data()
     server = couchdb.Server('placeholer')
     db=server['placeholer']
     for tweet in db:
