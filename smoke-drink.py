@@ -23,8 +23,8 @@ def score2dic(score):
         smokeResult['negative']= smokeResult['negative'] + 1
 def find(tweet,smokeResult):
     tains=get_train()
-    text=server['text']
-    loc=server['location']
+    text=tweet['text']
+    loc=tweet['location']
     find = 0
     for t in trains:
         if t in text:
