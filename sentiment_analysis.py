@@ -1,5 +1,6 @@
 #The input is a tweet and dictionary, and the output is a dictionary.
 import re
+import couchdb
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # Hashtags
@@ -144,8 +145,8 @@ def count_emojis(text):
         count += len(re.findall(regx, text))
     return count
 
-
-emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+def emotion_list():
+    emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Sydney':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Peth':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Darwin':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
@@ -153,6 +154,7 @@ emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'am
           'Hobart':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Adelaide':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Brisbane':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}}}
+    return emotion_score
 
 
 def sentiment_score(tweet_text):
@@ -165,22 +167,32 @@ def sentiment_score(tweet_text):
     return score
 
 
-def sentiment_analysis(tweet_text, sentiment_score):
+def sentiment_statistic(tweet_text, sentiment_list):
     score = sentiment_score(tweet_text['text'])
     city = tweet_text['location']
     if 0 <= tweet_text['time'] < 6:
-        sentiment_score[city]['0-6']['total'] += score['compound']
-        sentiment_score[city]['0-6']['amount'] += 1
+        sentiment_list[city]['0-6']['total'] += score['compound']
+        sentiment_list[city]['0-6']['amount'] += 1
     elif 6 <= tweet_text['time'] < 12:
-        sentiment_score[city]['6-12']['total'] += score['compound']
-        sentiment_score[city]['6-12']['amount'] += 1
+        sentiment_list[city]['6-12']['total'] += score['compound']
+        sentiment_list[city]['6-12']['amount'] += 1
     elif 12 <= tweet_text['time'] < 18:
-        sentiment_score[city]['12-18']['total'] += score['compound']
-        sentiment_score[city]['12-18']['amount'] += 1
+        sentiment_list[city]['12-18']['total'] += score['compound']
+        sentiment_list[city]['12-18']['amount'] += 1
     else:
-        sentiment_score[city]['18-24']['total'] += score['compound']
-        sentiment_score[city]['18-24']['amount'] += 1
-    return sentiment_score
+        sentiment_list[city]['18-24']['total'] += score['compound']
+        sentiment_list[city]['18-24']['amount'] += 1
+    return sentiment_list
+
+
+def sentiment_analysis():
+    emotion_data = emotion_list()
+    server = couchdb.Server('placeholer')
+    db = server['placeholer']
+    for tweet in db:
+        sentiment_statistic(tweet, emotion_data)
+    return emotion_data
+
 
 #The below part is used to test!
 #tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(.", "i am so happpppyyyyyyy!"]
