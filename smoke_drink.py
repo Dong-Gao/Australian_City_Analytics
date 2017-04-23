@@ -3,10 +3,7 @@ import SentimentAnalysis
 import couchdb
 
 
-smokeResult={'Melbourne':{'positive':0,'negative':0},'Sydney':{'positive':0,'negative':0},
-             'Peth':{'positive':0,'negative':0},'Darwin':{'positive':0,'negative':0},
-             'Canberra':{'positive':0,'negative':0},'Hobart':{'positive':0,'negative':0},
-             'Adelaide':{'positive':0,'negative':0},'Brisbane':{'positive':0,'negative':0}}
+
 def get_train():
     train=[]
     file=open('smoke.txt', 'r', encoding='utf-8')
