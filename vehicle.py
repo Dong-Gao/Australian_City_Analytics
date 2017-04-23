@@ -62,7 +62,7 @@ def vehicle_manufacturer_country(tweet,country_list):
                 if brand in tweet_text:
                     country_list[l]["Australian"] = country_list[l]["Australian"] + 1
     return country_list
-def vehicle(vehicle):
+def vehicle_exe(vehicle):
     country_list=country_list_data()
     server = couchdb.Server('placeholer')
     db=server['placeholer']
