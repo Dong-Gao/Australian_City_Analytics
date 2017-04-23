@@ -24,7 +24,6 @@ country_list={'Melbourne':{"German": 0, "Italian": 0, "French": 0, "British": 0,
                       "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0},
           'Brisbane':{"German": 0, "Italian": 0, "French": 0, "British": 0,
                       "American": 0, "Japanese": 0, "Korean": 0, "Chinese": 0, "Australian": 0}}
-vehicle={'Melbourne':0,'Sydney':0,'Peth':0,'Darwin':0,'Canberra':0,'Hobart':0,'Adelaide':0,'Brisbane':0}
 # tweet format should be dict
 # list format should be dict
 def vehicle_manufacturer_country(tweet, country_list):
