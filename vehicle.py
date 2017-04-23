@@ -30,7 +30,7 @@ def vehicle_manufacturer_country(tweet,country_list):
     Chinese = ["Geely", "Chery", "Hongqi", "Brilliance", "BYD"]
     Australian = ["Honden"]
 
-    text=tweet['text']
+    tweet_text=tweet['text']
     loc=tweet['location']
     for l in country_list:
         if l=loc:
