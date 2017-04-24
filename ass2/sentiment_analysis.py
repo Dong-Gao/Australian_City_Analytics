@@ -3,7 +3,7 @@ import couchdb
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 def test_data():
-    test=[{'location':'Melbourne','text':'beer BMW happy! cigar'},{'location':'Melbourne','text':'pint Ford sorry!'},{'location':'Peth','text':'Who has fire lighter? VW :)! cigar'},{'location':'Canberra','text':'Holden,new car! so cheerful!'}]
+    test=[{'location':'Melbourne','text':'beer BMW happy! cigar','time':14},{'location':'Melbourne','text':'pint Ford sorry!','time':7},{'location':'Peth','text':'Who has fire lighter? VW :)! cigar','time':3},{'location':'Canberra','text':'Holden,new car! so cheerful!','time':22}]
     return test
 # Hashtags
 hash_regex = re.compile(r"#(\w+)")
