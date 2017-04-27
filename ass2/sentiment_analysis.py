@@ -189,13 +189,13 @@ def sentiment_statistic(tweet_text, sentiment_list):
 
 def sentiment_analysis(emotionResult):
     emotion_data = emotion_list()
-    #server = couchdb.Server('placeholer')
-    #db = server['placeholer']
-    #for tweet in db:
-    #    sentiment_statistic(tweet, emotion_data)
-    test=test_data()
-    for i in range(0,len(test)):
-        sentiment_statistic(test[i],emotion_data)
+    server = couchdb.Server('placeholer')
+    db = server['placeholer']
+    for tweet in db:
+        sentiment_statistic(tweet, emotion_data)
+    #test=test_data()
+    #for i in range(0,len(test)):
+    #    sentiment_statistic(test[i],emotion_data)
     for i in emotionResult:
         emotionResult[i]['0-6'] = emotion_data[i]['0-6']['total'] / emotion_data[i]['0-6']['amount']
         emotionResult[i]['6-12'] = emotion_data[i]['6-12']['total'] / emotion_data[i]['6-12']['amount']
