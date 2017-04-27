@@ -45,7 +45,7 @@ def smoke_Drink(smokeResult):
     ##密码 iamfine
     for tweet in db:
         find(tweet, words, smokeResult)
-    test=test_data()
-    for i in range(0,len(test)):
-        find(test[i],words,smokeResult)
+    #test=test_data()
+    #for i in range(0,len(test)):
+    #    find(test[i],words,smokeResult)
     return smokeResult
