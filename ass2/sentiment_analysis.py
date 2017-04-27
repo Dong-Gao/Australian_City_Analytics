@@ -191,6 +191,8 @@ def sentiment_analysis(emotionResult):
     emotion_data = emotion_list()
     server = couchdb.Server('placeholer')
     db = server['placeholer']
+    ##用户名 sourcead
+    ##密码 iamfine
     for tweet in db:
         sentiment_statistic(tweet, emotion_data)
     #test=test_data()
