@@ -25,8 +25,7 @@ def find(tweet, words, smokeResult):
         else:
             find = find
     if find > 0:
-        #score = sentiment_analysis.sentiment_score(text)['compound']
-        score=0
+        score = sentiment_analysis.sentiment_score(text)['compound']
         for l in smokeResult:
             if l == loc:
                 if score > 0:
