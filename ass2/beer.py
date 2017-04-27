@@ -92,14 +92,16 @@ def beer_brand(tweet, beer_list):
     return beer_list
 
 def beer_exe(beerResult):
-    beer_list=beer_data()
-    #server = couchdb.Server('placeholer')
-    #db=server['placeholer']
-    #for tweet in db:
-    #    beer_brand(tweet,beer_list)
-    test=test_data()
-    for i in range(0,len(test)):
-        beer_brand(test[i],beer_list)
+    #beer_list=beer_data()
+    server = couchdb.Server('placeholer')
+    db=server['placeholer']
+    ##用户名 sourcead
+    ##密码 iamfine
+    for tweet in db:
+        beer_brand(tweet,beer_list)
+    #test=test_data()
+    #for i in range(0,len(test)):
+    #    beer_brand(test[i],beer_list)
     for i in beer_list:
         count = 0
         for j in beer_list[i]:
