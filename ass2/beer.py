@@ -92,7 +92,7 @@ def beer_brand(tweet, beer_list):
     return beer_list
 
 def beer_exe(beerResult):
-    #beer_list=beer_data()
+    beer_list=beer_data()
     server = couchdb.Server('placeholer')
     db=server['placeholer']
     ##用户名 sourcead
