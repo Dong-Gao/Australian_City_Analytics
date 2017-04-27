@@ -41,6 +41,8 @@ def smoke_Drink(smokeResult):
     words = get_words()
     server = couchdb.Server('115.146.93.79')
     db = server['twitter']
+    ##用户名 sourcead
+    ##密码 iamfine
     for tweet in db:
         find(tweet, words, smokeResult)
     test=test_data()
