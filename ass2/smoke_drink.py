@@ -39,10 +39,10 @@ def find(tweet, words, smokeResult):
 
 def smoke_Drink(smokeResult):
     words = get_words()
-    #server = couchdb.Server('placeholer')
-    #db = server['placeholer']
-    #for tweet in db:
-    #    find(tweet, words, smokeResult)
+    server = couchdb.Server('115.146.93.79')
+    db = server['twitter']
+    for tweet in db:
+        find(tweet, words, smokeResult)
     test=test_data()
     for i in range(0,len(test)):
         find(test[i],words,smokeResult)
