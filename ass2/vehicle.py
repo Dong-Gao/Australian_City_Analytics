@@ -68,13 +68,15 @@ def vehicle_manufacturer_country(tweet,country_list):
 
 def vehicle_exe(vehicle):
     country_list=country_list_data()
-    #server = couchdb.Server('placeholer')
-    #db=server['placeholer']
-    #for tweet in db:
-    #    vehicle_manufacturer_country(tweet,country_list)
-    test=test_data()
-    for i in range(0,len(test)):
-        vehicle_manufacturer_country(test[i],country_list)
+    server = couchdb.Server('placeholer')
+    db=server['placeholer']
+    ##用户名 sourcead
+    ##密码 iamfine
+    for tweet in db:
+        vehicle_manufacturer_country(tweet,country_list)
+    #test=test_data()
+    #for i in range(0,len(test)):
+    #    vehicle_manufacturer_country(test[i],country_list)
     for i in country_list:
         count = 0
         for j in country_list[i]:
