@@ -1,10 +1,12 @@
-#The input is a tweet and dictionary, and the output is a dictionary.
 import re
-import couchdb
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
+import json
+import time
+t1=time.process_time()
 # Hashtags
 hash_regex = re.compile(r"#(\w+)")
+
+
 def hash_repl(match):
     return '__HASH_'+match.group(1).upper()
 
@@ -29,10 +31,10 @@ def rpt_repl(match):
 emoticons = \
     [
         (' SMILE ', [':-)',':)','(:','(-:',';o)',':o)',':-3',':3',':->',':>','8-)','8)',':c)',':^)','=)']),
-        (' LAUGH ', [':-D',':D', 'X-D', 'x-D', 'XD', 'xD', '=D', '8-D', '8D', '=3', 'B^D', ":'‑)", ":')"]),
+        (' LAUGH ', [':-D',':D', 'X-D', 'x-D', 'XD', 'xD', '=D', '8-D', '8D', '=3', 'B^D', ":'-)", ":')"]),
         (' LOVE ', ['<3', ':\*', ]),
-        (' GRIN ', [';-)', ';)', ';-D', ';D', '(;', '(-;','\*-)','\*)',';‑]',';]',';^)',':‑,']),
-        (' FRUSTRATE ', [':o(','>:o(',':-(', ':(', '):', ')-:', ':c',':‑<','>:(']),
+        (' GRIN ', [';-)', ';)', ';-D', ';D', '(;', '(-;','\*-)','\*)',';-]',';]',';^)',':-,']),
+        (' FRUSTRATE ', [':o(','>:o(',':-(', ':(', '):', ')-:', ':c',':-<','>:(']),
         (' CRY ', [':,(', ":'(", ':\"(', ':((']),
     ]
 
@@ -148,7 +150,7 @@ def count_emojis(text):
 def emotion_list():
     emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Sydney':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
-          'Peth':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
+          'Perth':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Darwin':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Canberra':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
           'Hobart':{'0-6':{'total':0, 'amount':0},'6-12':{'total':0, 'amount':0},'12-18':{'total':0, 'amount':0},'18-24':{'total':0, 'amount':0}},
@@ -168,48 +170,104 @@ def sentiment_score(tweet_text):
 
 
 def sentiment_statistic(tweet_text, sentiment_list):
-    score = sentiment_score(tweet_text['text'])
-    city = tweet_text['location']
-    if 0 <= tweet_text['time'] < 6:
-        sentiment_list[city]['0-6']['total'] += score['compound']
-        sentiment_list[city]['0-6']['amount'] += 1
-    elif 6 <= tweet_text['time'] < 12:
-        sentiment_list[city]['6-12']['total'] += score['compound']
-        sentiment_list[city]['6-12']['amount'] += 1
-    elif 12 <= tweet_text['time'] < 18:
-        sentiment_list[city]['12-18']['total'] += score['compound']
-        sentiment_list[city]['12-18']['amount'] += 1
-    else:
-        sentiment_list[city]['18-24']['total'] += score['compound']
-        sentiment_list[city]['18-24']['amount'] += 1
-    return sentiment_list
+    a=0
+    try:
+        score = sentiment_score(tweet_text['text'])
+        city = tweet_text['location']
+        if 0 <= tweet_text['time'] < 6:
+            sentiment_list[city]['0-6']['total'] += score['compound']
+            sentiment_list[city]['0-6']['amount'] += 1
+        elif 6 <= tweet_text['time'] < 12:
+            sentiment_list[city]['6-12']['total'] += score['compound']
+            sentiment_list[city]['6-12']['amount'] += 1
+        elif 12 <= tweet_text['time'] < 18:
+            sentiment_list[city]['12-18']['total'] += score['compound']
+            sentiment_list[city]['12-18']['amount'] += 1
+        elif 18 <= tweet_text['time'] <24:
+            sentiment_list[city]['18-24']['total'] += score['compound']
+            sentiment_list[city]['18-24']['amount'] += 1
+        return sentiment_list
+    except:
+        a=a
+
+def sentiment_analysis_per(tweet,emotionResult):
+    emotion_data = emotion_list()
+    sentiment_statistic(tweet,emotion_data)
+    for i in emotionResult:
+        if emotion_data[i]['0-6']==0:
+            emotionResult[i]['0-6'] = 'N/A'
+        else:
+            emotionResult[i]['0-6'] = emotion_data[i]['0-6']['total'] / emotion_data[i]['0-6']['amount']
+        if emotion_data[i]['6-12']==0:
+            emotionResult[i]['6-12'] = 'N/A'
+        else:
+            emotionResult[i]['6-12'] = emotion_data[i]['6-12']['total'] / emotion_data[i]['6-12']['amount']
+        if emotion_data[i]['12-18']==0:
+            emotionResult[i]['12-18'] = 'N/A'
+        else:
+            emotionResult[i]['12-18'] = emotion_data[i]['12-18']['total'] / emotion_data[i]['12-18']['amount']
+        if emotion_data[i]['18-24']==0:
+            emotionResult[i]['18-24'] = 'N/A'
+        else:
+            emotionResult[i]['18-24'] = emotion_data[i]['18-24']['total'] / emotion_data[i]['18-24']['amount']
+    return emotionResult
+
+def sentiment_analysis_cloud(tweets,emotion_data):
+    #emotion_data = emotion_list()
+    for tweet in tweets:
+        sentiment_statistic(tweet, emotion_data)
+    return emotion_data
+
 
 
 def sentiment_analysis(emotionResult):
     emotion_data = emotion_list()
-    server = couchdb.Server('placeholer')
-    db = server['placeholer']
-    for tweet in db:
+    filesource = open('status1.json', 'r', encoding='utf-8')
+    for i in filesource:
+        tweet = json.loads(i)
         sentiment_statistic(tweet, emotion_data)
+
     for i in emotionResult:
-        emotionResult[i]['0-6']   = emotion_data[i]['0-6']['total']/emotion_data[i]['0-6']['amount']
-        emotionResult[i]['6-12']  = emotion_data[i]['6-12']['total'] / emotion_data[i]['6-12']['amount']
-        emotionResult[i]['12-18'] = emotion_data[i]['12-18']['total'] / emotion_data[i]['12-18']['amount']
-        emotionResult[i]['12-18'] = emotion_data[i]['0-6']['total'] / emotion_data[i]['12-18']['amount']
+        if emotion_data[i]['0-6']['amount']==0:
+            emotionResult[i]['0-6'] = 'N/A'
+        else:
+            emotionResult[i]['0-6'] = emotion_data[i]['0-6']['total'] / emotion_data[i]['0-6']['amount']
+        if emotion_data[i]['6-12']['amount']==0:
+            emotionResult[i]['6-12'] = 'N/A'
+        else:
+            emotionResult[i]['6-12'] = emotion_data[i]['6-12']['total'] / emotion_data[i]['6-12']['amount']
+        if emotion_data[i]['12-18']['amount']==0:
+            emotionResult[i]['12-18'] = 'N/A'
+        else:
+            emotionResult[i]['12-18'] = emotion_data[i]['12-18']['total'] / emotion_data[i]['12-18']['amount']
+        if emotion_data[i]['18-24']['amount']==0:
+            emotionResult[i]['18-24'] = 'N/A'
+        else:
+            emotionResult[i]['18-24'] = emotion_data[i]['18-24']['total'] / emotion_data[i]['18-24']['amount']
+    return emotionResult
+def print_results(result):
+    with open('haob.txt', "w") as text_file:
+        for each_result in result:
+            print("City name: {} \n 0-6: {} \n6-12: {}.\n12-18: {}.\n12-24: {}.\n".format(
+                each_result, result[each_result]['0-6'],result[each_result]['6-12'],result[each_result]['12-18'],result[each_result]['12-24']),
+                  file=text_file)
+def scoreDevide(emotion_data,emotionResult):
+    for i in emotionResult:
+        if emotion_data[i]['0-6'] == 0:
+            emotionResult[i]['0-6'] = 'N/A'
+        else:
+            emotionResult[i]['0-6'] = emotion_data[i]['0-6']['total'] / emotion_data[i]['0-6']['amount']
+        if emotion_data[i]['6-12'] == 0:
+            emotionResult[i]['6-12'] = 'N/A'
+        else:
+            emotionResult[i]['6-12'] = emotion_data[i]['6-12']['total'] / emotion_data[i]['6-12']['amount']
+        if emotion_data[i]['12-18'] == 0:
+            emotionResult[i]['12-18'] = 'N/A'
+        else:
+            emotionResult[i]['12-18'] = emotion_data[i]['12-18']['total'] / emotion_data[i]['12-18']['amount']
+        if emotion_data[i]['18-24'] == 0:
+            emotionResult[i]['18-24'] = 'N/A'
+        else:
+            emotionResult[i]['18-24'] = emotion_data[i]['18-24']['total'] / emotion_data[i]['18-24']['amount']
     return emotionResult
 
-
-
-#The below part is used to test!
-#tweets = ["I am happy! #Today! @helloworld, :)", "\xF0\x9F\x98\x81","I am not happy.","Today is :).", "I am really >:o(.", "i am so happpppyyyyyyy!"]
-
-
-#for tweet_text in tweets:
-    #tweet_text = process_urls(tweet_text)
-    #tweet_text = process_emoticons(tweet_text)
-    #tweet_text = process_emojis(tweet_text)
-    #tweet_text = tweet_text.replace('\'','')
-    #tweet_text = process_repeatings(tweet_text)
-    #print(tweet_text)
-    #score = SentimentIntensityAnalyzer().polarity_scores(tweet_text)
-    #print(score)
