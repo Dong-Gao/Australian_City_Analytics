@@ -4,19 +4,27 @@ import queue
 import sys
 import time
 import tweepy
+import smoke_drink
+import sentiment_analysis
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import culture as Culture
 from tweepy import OAuthHandler
+from tweepy import Stream
+from tweepy.streaming import StreamListener
 
-#args = sys.argv
+analyzer = SentimentIntensityAnalyzer()
 
-#for arg in args:
-#    print(arg)
 couchIP = 'sourcead:iamfine@115.146.93.79' # IP of master couchdb
 #couchIP = 'localhost'
 threadRank = 1
-threadCount = 4 #int(args[2])
-databaseName = 'twitter'
-databaseNameSource = 'source'
-nameSourceID = 'sourcelist'
+threadCount = 4
+dbName = 'twitter'
+dbNameSource = 'source'
+dbNameResult = 'result'
+docNameSource = 'sourcelist'
+docNameSmokeResult = 'smokeResult'
+docNameEmotionResult = 'emotionResult'
+docNameCulture = 'culture'
 
 accounts = [] # for fetching status
 accountPos = 0 # current account fetching
@@ -24,33 +32,36 @@ unfetchedUserQueueCapacity = 100
 peopleMaxCount = 25000 # Max amount of people fetching
 statusMaxCount = 200 # Max amount of statuses of one person
 friendMaxCount = 20 # Max amount of friends of one person to be added to queue
-couch = couchdb.Server('http://' + couchIP + ':5984')
-db = None
-
 databasetime = 0 # for timing
 tweettime = 0
 
-#isMaster = True
-
-# to judge master
-#try:
-#    couchVarify = couchdb.Server('http://127.0.0.1:5984')
-#    couchVarify['_users']
-#except ConnectionRefusedError:
-#    isMaster = False
-
-#if isMaster:
-# to create or get db of all statuses
-try:
-    db = couch[databaseName]
-except couchdb.http.ResourceNotFound:
-    try:
-        db = couch.create(databaseName)
-    except couchdb.http.PreconditionFailed:
-        pass
-
-# fetchedUser = {}
+# initialize the queue
 unfetchedUser = queue.Queue(maxsize = unfetchedUserQueueCapacity)
+
+# for scenario
+smokeResult = {'_id' : docNameSmokeResult,
+    'Melbourne': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4937},
+    'Sydney': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4941},
+    'Perth': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4851},
+    'Darwin': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4533},
+    'Canberra': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4926},
+    'Hobart': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4834},
+    'Adelaide': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4908},
+    'Brisbane': {'positive': 0, 'negative': 0, 'rate': 0,'female_rate':0.4944}}
+emotionResult = {'_id' : docNameEmotionResult,
+    'Melbourne':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Sydney':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Perth':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Darwin':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Canberra':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Hobart':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Adelaide':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}},
+    'Brisbane':{'0-6':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0,'amount':0,'score':0,'positive':0, 'negative':0, 'neutral':0}}}
+culture = {'_id' : docNameCulture,
+    'Darwin': {'match': 0, 'total': 0}, 'Adelaide': {'match': 0, 'total': 0},
+    'Brisbane': {'match': 0, 'total': 0}, 'Perth': {'match': 0, 'total': 0},
+    'Canberra': {'match': 0, 'total': 0}, 'Melbourne': {'match': 0, 'total': 0},
+    'Sydney': {'match': 0, 'total': 0},'Hobart': {'match': 0, 'total': 0}}
 
 # account setting
 # yingchuang
@@ -250,158 +261,257 @@ accounts.append({
 'access_token' : '854891237358186496-ti1HW24Xk49vG2S8xvmES8oGvI8xBQR',
 'access_secret' : 'A3f1AYO4vYOgfaSywTtGgksZybBhdtXA1QMbmB5DQfmvt'})
 
-# add account to api
+# add accounts to apis
 apis = []
 for account in accounts:
     auth = OAuthHandler(account['consumer_key'], account['consumer_secret'])
     auth.set_access_token(account['access_token'], account['access_secret'])
     apis.append(tweepy.API(auth))
-    #print(account)
-print("accounts added")
-# get start name
-dbSource = couch[databaseNameSource]
-print("dbSource")
+print("Accounts added")
+
+# connect to couchdb
+# database for tweets
+couch = couchdb.Server('http://' + couchIP + ':5984')
+db = None
 try:
+    db = couch[dbName]
+except couchdb.http.ResourceNotFound:
+    try:
+        couch.create(dbName)
+        db = couch[dbName]
+    except couchdb.http.PreconditionFailed:
+        pass
+
+# database for results
+dbResult = None
+try:
+    dbResult = couch[dbNameResult]
+except couchdb.http.ResourceNotFound:
+    try:
+        couch.create(dbNameResult)
+        dbResult = couch[dbNameResult]
+    except couchdb.http.PreconditionFailed:
+        pass
+
+try:
+    docSmokeResult = dbResult[docNameSmokeResult]
+except:
+    doc_id, doc_rev = dbResult.save(smokeResult)
+    pass
+try:
+    docEmotionResult = dbResult[docNameEmotionResult]
+except:
+    doc_id, doc_rev = dbResult.save(emotionResult)
+    pass
+try:
+    docCulture = dbResult[docNameCulture]
+except:
+    doc_id, doc_rev = dbResult.save(culture)
+    pass
+
+def city(str):
+    citylist = ['Canberra','Sydney','Melbourne','Brisbane','Perth','Darwin','Adelaide','Hobart']
+    for c in citylist:
+        if c in str:
+            return c
+    return ''
+def location(friend):
+    locationString = friend.location
+    if locationString != '' and locationString is not None:
+        local = city(locationString)
+        if local != '':
+            return local
+    locationString = friend.time_zone
+    if locationString != '' and locationString is not None:
+        local = city(locationString)
+        if local != '':
+            return local
+    try:
+        locationString = friend.status.place
+        if locationString != '' and locationString is not None:
+            local = city(locationString.name)
+            if local != '':
+                return local
+    except Exception:
+        pass
+    return ''
+
+# class for Streaming API
+class MyStreamListener(tweepy.StreamListener):
+
+    def on_status(self, status):
+        try:
+            db[status.user.screen_name]
+            print(friend.screen_name, "re")
+        except couchdb.http.ResourceNotFound:
+            tweet_temp = {"time":status.created_at.hour,'location':location(status.user),'text':status.text,'coordinates':status._json['coordinates']}
+            db.save(tweet_temp)
+        except Exception as e:
+            print(e,sys._getframe().f_lineno)
+
+try:
+    # get source and rank
+    dbSource = couch[dbNameSource]
     while True:
         try:
-            print('nameDoc')
-            nameDoc = dbSource[nameSourceID]
-            threadRank = nameDoc['count']
-            startIndex = int(threadRank / threadCount * len(nameDoc['name']))
-            endIndex = int((threadRank + 1) / threadCount * len(nameDoc['name']))
+            docSource = dbSource[docNameSource]
+            threadRank = docSource['count']
+            startIndex = int(threadRank / threadCount * len(docSource['name']))
+            endIndex = int((threadRank + 1) / threadCount * len(docSource['name']))
             for i in range(startIndex,endIndex):
-                unfetchedUser.put(nameDoc['name'][i])
-            # unfetchedUser.put(nameDoc['name'][0])
-            nameDoc['count'] += 1
-            a = dbSource.save(nameDoc)
+                unfetchedUser.put(docSource['name'][i])
+            docSource['count'] += 1
+            a = dbSource.save(docSource)
             accountPos += int(threadRank * (len(accounts) / threadCount + 1))
             break
         except couchdb.http.ResourceConflict as e:
             print(e, sys._getframe().f_lineno)
 
-    def city(str):
-        citylist = ['Canberra','Sydney','Melbourne','Brisbane','Perth','Darwin','Adelaide','Hobart']
-        for c in citylist:
-            if c in str:
-                return c
-        return ''
-    def location(friend):
-        locationString = friend.location
-        if locationString != '' and locationString is not None:
-            local = city(locationString)
-            if local != '':
-                return local
-        locationString = friend.time_zone
-        if locationString != '' and locationString is not None:
-            local = city(locationString)
-            if local != '':
-                return local
-        try:
-            locationString = friend.status.place
-            if locationString != '' and locationString is not None:
-                local = city(locationString.name)
-                if local != '':
-                    return local
-        except Exception:
-            pass
-        return ''
+    # start crawling
+    # half crawling by REST API
+    if threadRank % 2 == 0:
+        starttime = time.time()
+        userCount = 0
+        for i in range(peopleMaxCount):
+            screenName = unfetchedUser.get()
+            print(screenName, unfetchedUser.qsize())
 
-    # start fetching
-    starttime = time.time()
-    for i in range(peopleMaxCount):
-        screenName = unfetchedUser.get()
-        print(screenName, unfetchedUser.qsize())
-
-        # fetch friends
-        while True:
-            try:
-                if unfetchedUserQueueCapacity - unfetchedUser.qsize() < 20:
-                    break
-                friendCount = min(unfetchedUserQueueCapacity - unfetchedUser.qsize(),friendMaxCount)
-                for friend in tweepy.Cursor(apis[accountPos].friends, screen_name = screenName).items(friendCount):
-                    # judge other conditions
-                    if friend.lang != 'en' or friend.followers_count < 5 or friend.statuses_count < 10:
-                        continue
-                    local = location(friend)
-                    if local == '':
-                        continue
-                    try:
-                        db[friend.screen_name] # judge is existing
-                        print(friend.screen_name, "re")
-                    except couchdb.http.ResourceNotFound:
-                        unfetchedUser.put(friend.screen_name)
-                    except Exception as e:
-                        print(e,sys._getframe().f_lineno)
-                break
-            except tweepy.error.RateLimitError as e:
-                accountPos = accountPos + 1
-                accountPos = accountPos % len(accounts)
-                time.sleep(5)
-                print(e,accountPos,'friend',sys._getframe().f_lineno)
-            except tweepy.error.TweepError as e:
-                if e.response is None:
-                    raise e
-                elif e.api_code == 326:
-                    accountPos = accountPos + 1
-                    accountPos = accountPos % len(accounts)
-                    time.sleep(5)
-                    print(e,accountPos,'friend e.api_code 326',sys._getframe().f_lineno)
-                elif e.response.status_code in set([401, 404]): ##############
-                    print(e,"status_code 401 404",sys._getframe().f_lineno)
-                    break
-                else:
-                    print(e,'friend',sys._getframe().f_lineno)
-                    break
-        # fetch statuses
-        while True:
-            try:
-                statusJsons = []
-                statusCount = 0
-                finished = False
-                id = ''
-                for status in tweepy.Cursor(apis[accountPos].user_timeline, screen_name = screenName, include_rts = False).items(statusMaxCount):
-                    # statusJsons.append(status._json)
-                    statusJsons.append({"time":status.created_at.hour,'location':location(status.user),'text':status.text,'coordinates':status._json['coordinates']})
-                    id = status.id_str
-                for status in tweepy.Cursor(apis[accountPos].user_timeline, screen_name = screenName, max_id =id, include_rts = False).items(statusMaxCount):
-                    statusJsons.append({"time":status.created_at.hour,'text':status.text,'coordinates':status._json['coordinates']})
-                if len(statusJsons) > 0:
-                    if screenName[0] == '_': # delete underscore in 1st place of name
-                        print(screenName)
-                        screenName = screenName[1:-1]
-                        print(screenName)
-                    saveDict = {'_id':screenName,'status':statusJsons}
-                    while True:
+            # fetch friends
+            while True:
+                try:
+                    # get users in a low frequency
+                    if unfetchedUserQueueCapacity - unfetchedUser.qsize() < 20:
+                        break
+                    friendCount = min(unfetchedUserQueueCapacity - unfetchedUser.qsize(),friendMaxCount)
+                    for friend in tweepy.Cursor(apis[accountPos].friends, screen_name = screenName).items(friendCount):
+                        # judge conditions
+                        if friend.lang != 'en' or friend.followers_count < 5 or friend.statuses_count < 10:
+                            continue
+                        local = location(friend)
+                        if local == '':
+                            continue
                         try:
-                            db.save(saveDict)
-                            break
+                            db[friend.screen_name] # judge if existing
+                            print(friend.screen_name, "re")
+                        except couchdb.http.ResourceNotFound:
+                            unfetchedUser.put(friend.screen_name)
                         except Exception as e:
                             print(e,sys._getframe().f_lineno)
-                            break
-                break
-            except tweepy.error.RateLimitError as e:
-                # error too many requests
-                accountPos = accountPos + 1
-                accountPos = accountPos % len(accounts)
-                time.sleep(5)
-                print(e,accountPos,'status',sys._getframe().f_lineno)
-            except tweepy.error.TweepError as e:
-                if e.response is None:
-                    print(e,"None",sys._getframe().f_lineno)
-                elif e.response.status_code in set([326,429]):
-                #elif e.api_code == 326:
+                    break
+                except tweepy.error.RateLimitError as e:
                     accountPos = accountPos + 1
                     accountPos = accountPos % len(accounts)
                     time.sleep(5)
-                    print(e,sys._getframe().f_lineno)
-                else:
-                    print(e,sys._getframe().f_lineno)
+                    print(e,accountPos,'friend',sys._getframe().f_lineno)
+                except tweepy.error.TweepError as e:
+                    if e.response is None:
+                        raise e
+                    # error rate limit exceeded
+                    elif e.api_code == 326:
+                        accountPos = accountPos + 1
+                        accountPos = accountPos % len(accounts)
+                        time.sleep(5)
+                        print(e,accountPos,'friend e.api_code 326',sys._getframe().f_lineno)
+                    # error Bad request or URI not found
+                    elif e.response.status_code in set([401, 404]): ##############
+                        print(e,"status_code 401 404",sys._getframe().f_lineno)
+                        break
+                    else:
+                        print(e,'friend',sys._getframe().f_lineno)
+                        break
+            # crawling tweets
+            while True:
+                try:
+                    statusJsons = []
+                    id = None
+                    for i in range(2):
+                        tweets = None
+                        if id == None:
+                            tweets = tweepy.Cursor(apis[accountPos].user_timeline, screen_name = screenName, include_rts = False).items(statusMaxCount)
+                        else:
+                            tweets = tweepy.Cursor(apis[accountPos].user_timeline, screen_name = screenName, include_rts = False,max_id = id - 1).items(statusMaxCount)
+                        for status in tweets:
+                            # save tweets into a list temporarily
+                            tweet_temp = {"time":status.created_at.hour,'location':location(status.user),'text':status.text,'coordinates':status._json['coordinates']}
+                            try:
+                                smoke_drink.smoke_Drink_per(tweet_temp,smokeResult)
+                            except Exception as e:
+                                print(e,sys._getframe().f_lineno)
+                            try:
+                                sentiment_analysis.sentiment_analy(analyzer, tweet_temp,emotionResult)
+                            except Exception as e:
+                                print(e,sys._getframe().f_lineno)
+                            try:
+                                Culture.culture_per(tweet_temp,culture)
+                            except Exception as e:
+                                print(e,sys._getframe().f_lineno)
+                            statusJsons.append(tweet_temp)
+                            id = status.id
+                    if len(statusJsons) > 0:
+                        if screenName[0] == '_': # delete underscore in 1st place of name
+                            print(screenName)
+                            screenName = screenName[1:]
+                            print(screenName)
+                        saveDict = {'_id':screenName,'status':statusJsons}
+                        try:
+                            db.save(saveDict) # save to database
+                        except Exception as e:
+                            print(e,sys._getframe().f_lineno)     
                     break
-        print(time.time() - starttime,i)
-    while not unfetchedUser.empty():
-        print(unfetchedUser.get())
+                # error too many requests
+                except tweepy.error.RateLimitError as e:                    
+                    accountPos = accountPos + 1
+                    accountPos = accountPos % len(accounts)
+                    time.sleep(5)
+                    print(e,accountPos,'status',sys._getframe().f_lineno)
+                except tweepy.error.TweepError as e:
+                    if e.response is None:
+                        print(e,"None",sys._getframe().f_lineno)
+                    # error rate limit exceeded
+                    elif e.response.status_code in set([326,429]):
+                        accountPos = accountPos + 1
+                        accountPos = accountPos % len(accounts)
+                        time.sleep(5)
+                        print(e,sys._getframe().f_lineno)
+                    else:
+                        print(e,sys._getframe().f_lineno)
+                        break
+            print(time.time() - starttime,i)
+            userCount += 1
+            if userCount % 5 == 0:
+                dbResult.save(smokeResult)
+                dbResult.save(emotionResult)
+                dbResult.save(culture)
+                pass
+        while not unfetchedUser.empty():
+            print(unfetchedUser.get())
+    # half crawling by Streaming API
+    else:
+        tweetStream = Stream(api.auth,MyStreamListener())
+        tweetStream.filter(track=['smoke','smoker','smokers','smoking','smokie','cigar','ciggie','ciggy','fag','durry','tobacco','tobaccos',
+                              'cigarette','cigarette case','King Street','Bond Street','free choice','Choice Signature','JPS RYO',
+                              'Champion blue','Marlboro','Winfield','Longbeach','Peter Jackson','Horizon','Holiday','Alpine','Dunhill',
+                              'Escort','ashtray','lighter','lighters','match','Easy','JPS','B&H','PJ','Rothmans','P/Stuyv','alcohol',
+                              'atubby','slab','drunk','drink','drank','bar','barburger','muso','bottle-o','bottle','pint','jar','wine',
+                              'ale','beer','spirits','whiskey','brandy','champagne','tequila','rum','sake','liquor','shochu',
+                              'anti-smoking','non-smoking','smoking zone','smoking area','quit smoking','alcoholic','alcoholism',
+                              'bacchant','sottish','dipsopathy','alcoholics','drunkenness','intoxication','temulentia','temulence',
+                              'zonked','abstinence','Chinese','China','China Town','Peking Opera','Kunfu','cheongsam','Beijing',
+                              'Shanghai','Hangzhou','Xi\'an','Sichuan','Chengdu','Guangzhou','Nanjing','Suzhou','Tibet','Tianjing',
+                              'Xiamen','Jinan','Pudong','Taiyuan','Sanya','Hainan','Kunming','Great Wall','Forbidden City',
+                              'Potala Palace','Terracotta Warriors and Horses','Huangshan','Taishan','Wutaishan','Yellow River',
+                              'Yangtze','Taiji','Hot pot','Dim sum','General Tsao\'s Chicken','Orange Chicken','Fortune Cookie',
+                              'Gong Bao Chicken','Mapo tofu','Dumplings','Won ton Soup','Peking Duck','Chow Mein','Hand Pulled Noodles',
+                              'Tsing Tao','Snow','Maotai','Yanjing','Yuxi','Shenzhou','Gaokao','Panda','nihao','NIHAO','RMB','Mahjong',
+                              'Yin and Yang','Feng shui','Journey to the West','Dream of Red Mansions','Three Kingdoms','Confucius',
+                              'Lao Tzu','Sun Tzu','Qin Shihuang','Emperor Wu','Sun Yat-sen','Chiang Kai-shek','Mao Zedong','Zhou Enlai',
+                              'Deng Xiaoping','Xi Jinping','Bruce Lee','Yao Ming','People\'s Republic of China',
+                              'The Chinese Communist Party','PRC','Spring Festival','Ching Ming Festival','Lantern Festival',
+                              'Mid-Autumn Festival','Erhu','Guzheng','Hulusi','Tsinghua University','Beijing University',
+                              'Fudan University','Zhejiang University','People\'s University','Nanjing University','Alibaba',
+                              'Union Pay','Huili','Taobao','Lenovo','Haier','Hisense','Huawei','BYD','DJI','OPPO','Xiaomi','VIVO','WeChat'])
 except Exception as e:
-    f=open('cluster.out','w',encoding='utf8')
+    f = open('cluster.out','w',encoding='utf8')
     while not unfetchedUser.empty():
         str = unfetchedUser.get()
         f.write(str)
