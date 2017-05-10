@@ -23,7 +23,7 @@ Otherwise, the ssh key connections may refuse.<br>
 3. In this script, the availability zone of new instance has been pre-set as ‘Melbourne’ which guarantee that volume and instance are in the same zone.<br>
 If there is not enough host in this zone, the launch process may fail.<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig1.png)<br>
-Figure 1: Architecture
+Figure 1: Architecture<br>
 
 ## 2.Scenarios Exploration
 ### 2.1 Main.py
@@ -38,25 +38,25 @@ reverse_geocode.py: Input is a coordinate, and the corresponding suburb is the o
 suburb_analysis.py: Input is a tweet, and the output is the corresponding suburb and sentiment score.<br>
 result_plots.py: According to final results, drawing plots using matplotlib library.<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig2.png)<br>
-Figure 2: Average Sentiment Score
+Figure 2: Average Sentiment Score<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig3.png)<br>
-Figure 3: Sentiment Percentage Statistic
+Figure 3: Sentiment Percentage Statistic<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig4.png)<br>
-Figure 4: Time Score Statistic
+Figure 4: Time Score Statistic<br>
 ### 2.3 Scenario 2: Cultural Integration
 The Cultural Integration Scenario is made by KaiLe Wei.<br>
 This document include one cultural.py, and a text file keywords.txt.<br>
 The py file is the function of cultural integration  scenario, and the txt file stores the keywords of the function.<br>
 There are two executable functions, culture_per(tweet,result) for single tweet analysis, and culture_file() for json file analysis.
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig5.png)<br>
-Figure 5: Chart of Ra and Rb(b)
+Figure 5: Chart of Ra and Rb(b)<br>
 ### 2.4 Scenario 3: Alcohol-Tobacco
 The Alcohol-Tobacco Scenario is made by Nanjiang Li.<br>
 This document include one smoke_drink.py, and a text file smoke.txt.<br>
 The py file is the function of alcohol-tobacco scenario, and the txt file stores the keywords of the function.<br>
 There are two executable functions, smoke_Drink_per(tweet,result) for single tweet analysis, and smoke_Drink() for json file analysis.
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig6.png)<br>
-Figure 6: Female Rate & Negative Rate
+Figure 6: Female Rate & Negative Rate<br>
 ## 3. Web
 This folder contains the code used for building web interface.<br>
 This web interface use a RESTFUL framework. Implementing by Python with Django.<br>
