@@ -6,6 +6,14 @@
     KaiLe Wei: 812381
     Chuang Ying: 844566
 ## 1.Deployment
+As shown in the Figure 1, the architecture of the tweets harvesting and scenario analysis application is listed as below.<br>
+![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig1.png)<br>
+Figure 1: Architecture<br>
+Launching instances on the NeCTAR. <br>
+Scripted deployment on the instances to set up all necessary software. <br>
+Tweets harvesting through twitter API and storing on couchdb cluster. <br>
+Scenario analysis by MapReduce and necessary libraries.Presentation on web-based pages.<br>
+## 2.Deployment
 There are several files in this folders for the launching and depolying process.<br>
 File setupbash.sh: a bash file to run the lanuching and deploying process. <br>
 File dbSetup.yaml : a yaml file for ansible-playbook to deploying the database instances on nectar.<br>
@@ -22,14 +30,12 @@ Few things to pay attention:<br>
 Otherwise, the ssh key connections may refuse.<br>
 3. In this script, the availability zone of new instance has been pre-set as ‘Melbourne’ which guarantee that volume and instance are in the same zone.<br>
 If there is not enough host in this zone, the launch process may fail.<br>
-![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig1.png)<br>
-Figure 1: Architecture<br>
 
-## 2.Scenarios Exploration
-### 2.1 Main.py
+## 3.Scenarios Exploration
+### 3.1 Main.py
 The main.py is written by Chuang Ying.<br>
 This is a python file for tweets harvesting by REST API to find new users & their tweets before and Streaming API to get current relevant tweets, and saving the tweets into couchdb.
-### 2.2 Scenario1: A series of sentiment scenarios
+### 3.2 Scenario1: A series of sentiment scenarios
 A series of sentiment scenarios are achieved by Dong Gao, including sentiment score analysis for each city, Time-Happiness scenario for cities, and Factors-Happiness Scenario for suburbs. <br>
 This part consists of five python files:<br>
 sentiment_analysis.py: Input is a tweet json file, and a sentiment tag is the output.<br>
@@ -43,21 +49,21 @@ Figure 2: Average Sentiment Score<br>
 Figure 3: Sentiment Percentage Statistic<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig4.png)<br>
 Figure 4: Time Score Statistic<br>
-### 2.3 Scenario 2: Cultural Integration
+### 3.3 Scenario 2: Cultural Integration
 The Cultural Integration Scenario is made by KaiLe Wei.<br>
 This document include one cultural.py, and a text file keywords.txt.<br>
 The py file is the function of cultural integration  scenario, and the txt file stores the keywords of the function.<br>
 There are two executable functions, culture_per(tweet,result) for single tweet analysis, and culture_file() for json file analysis.<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig5.png)<br>
 Figure 5: Chart of Ra and Rb(b)<br>
-### 2.4 Scenario 3: Alcohol-Tobacco
+### 3.4 Scenario 3: Alcohol-Tobacco
 The Alcohol-Tobacco Scenario is made by Nanjiang Li.<br>
 This document include one smoke_drink.py, and a text file smoke.txt.<br>
 The py file is the function of alcohol-tobacco scenario, and the txt file stores the keywords of the function.<br>
 There are two executable functions, smoke_Drink_per(tweet,result) for single tweet analysis, and smoke_Drink() for json file analysis.<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig6.png)<br>
 Figure 6: Female Rate & Negative Rate<br>
-## 3. Web
+## 4. Web
 This folder contains the code used for building web interface.<br>
 This web interface use a RESTFUL framework. Implementing by Python with Django.<br>
 To run this web interface: <br>
