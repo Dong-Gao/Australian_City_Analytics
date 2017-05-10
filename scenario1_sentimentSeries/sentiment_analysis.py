@@ -1,8 +1,7 @@
 import re
-#import json
-#from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-#from nltk.sentiment.vader import SentimentIntensityAnalyzer
-#import twython
+import json
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import twython
 
 # Find and process Hashtags
 hash_regex = re.compile(r"#(\w+)")
