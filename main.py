@@ -4,10 +4,10 @@ import queue
 import sys
 import time
 import tweepy
-import smoke_drink
-import sentiment_analysis
+import scenario3_alcoholTobacco.smoke_drink
+import scenario1_sentimentSeries.sentiment_analysis
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-import culture as Culture
+import scenario2_culturalIntegration.culture as Culture
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
