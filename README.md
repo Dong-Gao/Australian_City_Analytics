@@ -1,5 +1,13 @@
-COMP90024 Cluster and Cloud Computing Assignment2 - Australian City Analytics
-===
+# COMP90024 Cluster and Cloud Computing Assignment2 - Australian City Analytics
+#### Authors:
+    HongZhen Xie:
+    Dong Gao: 795622
+    NanJiang Li:
+    KaiLe Wei:
+    Chuang Ying:
+## Scenarios Analysis
+### Scenario1: A series of sentiment scenarios
+
 
 The Alcohol-Tobacco Scenario is made by Nanjiang.
 This document include one smoke_drink.py, and a text file smoke.txt.
