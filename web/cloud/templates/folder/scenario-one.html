@@ -1,14 +1,16 @@
 <!DOCTYPE HTML>
+{% load staticfiles %}
 <html>
 <head>
+
     <title>Australian City Analytics</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!--[if lte IE 8]>
-    <script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="assets/css/main.css"/>
+    <script src="{% static 'assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}"/>
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
+    <link rel="stylesheet" href="{% static 'assets/css/ie8.css' %}"/><![endif]-->
 </head>
 <body class="homepage">
 <div id="page-wrapper">
@@ -18,16 +20,16 @@
         <div id="header">
 
             <!-- Logo -->
-            <h1><a href="index.html">Australian City Analytics</a></h1>
+            <h1><a href="/">Australian City Analytics</a></h1>
 
             <!-- Nav -->
             <nav id="nav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="scenario-one.html">Scenario One</a></li>
-                    <li class="current"><a href="scenario-two.html">Scenario Two</a></li>
-                    <li><a href="scebario-three.html">Scenario Three</a></li>
-                    <li><a href="team-member.html">Team Members</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li  class="current"><a href="/scenario-one">Scenario One</a></li>
+                    <li><a href="/scenario-two">Scenario Two</a></li>
+                    <li><a href="/scenario-three">Scenario Three</a></li>
+                    <li><a href="/team-member">Team Members</a></li>
                 </ul>
             </nav>
 
@@ -43,43 +45,30 @@
                 <div class="8u 12u(mobile)">
                     <!--****************************-->
 
-
-
-
-
-
                     <head>
-                        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
-                        <script type='text/javascript'>
-                            google.charts.load('current', {'packages': ['geochart']});
-                            google.charts.setOnLoadCallback(drawMarkersMap);
+                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                        <script type="text/javascript">
+                            google.charts.load('current', {'packages':['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
 
-                            function drawMarkersMap() {
-                                var data = google.visualization.arrayToDataTable([
-                                    ['City',   'Population'],
-                                    ['Melbourne', 477],
-                                    ['Sydney',523],
-                                    ['Brisbane',      277],
-                                    ['Adelaide',121],
-                                    ['Hobart',      276],
-                                    ['Canberra',127],
-                                    ['Darwin',213],
-                                    ['Perth',323]
-                                ]);
+                            function drawChart() {
+                                var data_from_django = JSON.parse("{{ my_data|escapejs }}");
+                                alert(data_from_django);
 
+
+                                var data = google.visualization.arrayToDataTable(data_from_django);
                                 var options = {
-                                    region: 'AU',
-                                    displayMode: 'markers',
-                                    colorAxis: {colors: ['red', 'blue']}
+                                    title: 'Sentiment analysis of Australian cities Sentiment Score',
+                                    curveType: 'function',
+                                    legend: { position: 'bottem' }
                                 };
-
-                                var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+                                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
                                 chart.draw(data, options);
-                            };
+                            }
                         </script>
                     </head>
                     <body>
-                    <div id="chart_div" style="width: auto; height: auto;"></div>
+                    <div id="curve_chart" style="width: auto; height: 500px"></div>
                     </body>
 
 
@@ -93,7 +82,7 @@
 
                     <!-- Sidebar -->
                     <section class="box">
-                        <a class="image featured"><img src="images/001.png" alt=""/></a>
+                        <a class="image featured"><img src="{% static 'images/001.png' %}" alt=""/></a>
                         <header>
                             <h3>Beer analytics</h3>
                         </header>
@@ -140,14 +129,15 @@
 </div>
 
 <!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.dropotron.min.js"></script>
-<script src="assets/js/skel.min.js"></script>
-<script src="assets/js/skel-viewport.min.js"></script>
-<script src="assets/js/util.js"></script>
-<!--[if lte IE 8]>
-<script src="assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="assets/js/main.js"></script>
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+<script src="{% static 'assets/js/skel.min.js' %}"></script>
+<script src="{% static 'assets/js/skel-viewport.min.js' %}"></script>
+<script src="{% static 'assets/js/util.js' %}"></script>
+<!--[if lte IE 8]><script src="{% static 'assets/js/ie/respond.min.js' %}"></script><![endif]-->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
 
 </body>
 </html>

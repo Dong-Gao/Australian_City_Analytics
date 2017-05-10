@@ -1,14 +1,15 @@
 <!DOCTYPE HTML>
+{% load staticfiles %}
 <html>
 <head>
     <title>Australian City Analytics</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!--[if lte IE 8]>
-    <script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="assets/css/main.css"/>
+    <script src="{% static 'assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}"/>
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
+    <link rel="stylesheet" href="{% static 'assets/css/ie8.css' %}"/><![endif]-->
 </head>
 <body class="homepage">
 <div id="page-wrapper">
@@ -23,17 +24,29 @@
             <!-- Nav -->
             <nav id="nav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="scenario-one.html">Scenario One</a></li>
-                    <li><a href="scenario-two.html">Scenario Two</a></li>
-                    <li class="current"><a href="scebario-three.html">Scenario Three</a></li>
-                    <li><a href="team-member.html">Team Members</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/scenario-one">Scenario One</a></li>
+                    <li>
+                        <a href="#">Scenario Two</a>
+                        <ul>
+                            <li><a href="/scenario-two">Map Chart</a></li>
+                            <li><a href="/scenario-two2">Line Chart</a></li>
+                        </ul>
+                    </li>
+                    <li  class="current">
+                        <a href="#">Scenario Three</a>
+                        <ul>
+                            <li><a href="/scenario-three">Map Chart</a></li>
+                            <li><a href="/scenario-three2">Line Chart</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team-member">Team Members</a></li>
                 </ul>
             </nav>
 
+
         </div>
     </div>
-
 
 
     <!-- Main -->
@@ -44,9 +57,10 @@
                     <!--****************************-->
 
 
+
                     <head>
                         <!---- >
-                        https://developers.google.com/chart/interactive/docs/gallery/geochart#full
+                        <!-- https://developers.google.com/chart/interactive/docs/gallery/geochart#full -->
                         <!---->
                         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -56,21 +70,11 @@
                             google.charts.setOnLoadCallback(drawRegionsMap);
 
                             function drawRegionsMap() {
-
-                                var data = google.visualization.arrayToDataTable([
-                                    ['State', 'Select'],
-                                    ['AU-WA', 10],
-                                    ['AU-VIC', 2],
-                                    ['AU-TAS', 37],
-                                    ['AU-SA', 56],
-                                    ['AU-QLD', 23],
-                                    ['AU-NT', 79],
-                                    ['AU-ACT', 25],
-                                    ['AU-NSW', 15],
-                                ]);
-
+                                var data_from_django = JSON.parse("{{ my_data|escapejs }}");
+                                var data = google.visualization.arrayToDataTable(data_from_django);
                                 var options = {
                                     region: 'AU',
+                                    colors:['D70505'],
                                     displayMode: 'regions',
                                     resolution: 'provinces',
                                 };
@@ -86,6 +90,7 @@
                     </body>
 
 
+
                     <!--****************************-->
                 </div>
 
@@ -93,22 +98,18 @@
 
                     <!-- Sidebar -->
                     <section class="box">
-                        <a class="image featured"><img src="images/001.png" alt=""/></a>
+                        <a class="image featured"><img src="{% static 'images/005.png' %}" alt=""/></a>
                         <header>
-                            <h3>Beer analytics</h3>
+                            <h3>Alcohol-Tobacco Attitude Analysis by Gender</h3>
                         </header>
-                        <p>Lorem ipsum dolor sit amet sit veroeros sed amet blandit consequat veroeros lorem blandit
-                            adipiscing et feugiat phasellus tempus dolore ipsum lorem dolore.</p>
                         <p>
-                            Elementum odio duis semper risus et lectus commodo fringilla. Maecenas sagittis convallis
-                            justo vel mattis.
-                            placerat, nunc diam iaculis massa, et aliquet nibh leo non nisl vitae porta lobortis, enim
-                            neque fringilla nunc,
-                            eget faucibus lacus sem quis nunc suspendisse nec lectus sit amet augue rutrum vulputate ut
-                            ut mi. Aenean
-                            elementum, mi sit amet porttitor lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Lorem ipsum dolor
-                            sit amet nullam consequat feugiat dolore tempus.
+                            The alcohol-tobacco scenario focuses on twitter user's reaction and attitude towards
+                            drinking and smoking
+                        </p>
+                        <p>
+                            The negative attitude rate will be compared with female population rate, city by city.
+                            The principle of this scenario is to find out whether female has more negative feeling
+                            on those issue.
                         </p>
                     </section>
 
@@ -127,8 +128,9 @@
                     <!-- Copyright -->
                     <div id="copyright">
                         <ul class="links">
-                            <li>&copy; Team balabal. All rights reserved.</li>
-                            <li>Design: <a href="ip">IP</a></li>
+                            <!--<li>&copy; Team balabal. All rights reserved.</li>-->
+                            <!--<li>Design: <a href="ip">IP</a></li>-->
+                            <li>&copy; Comp 90024 Team 16. All rights reserved.</li>
                         </ul>
                     </div>
 
@@ -140,14 +142,15 @@
 </div>
 
 <!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.dropotron.min.js"></script>
-<script src="assets/js/skel.min.js"></script>
-<script src="assets/js/skel-viewport.min.js"></script>
-<script src="assets/js/util.js"></script>
-<!--[if lte IE 8]>
-<script src="assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="assets/js/main.js"></script>
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+<script src="{% static 'assets/js/skel.min.js' %}"></script>
+<script src="{% static 'assets/js/skel-viewport.min.js' %}"></script>
+<script src="{% static 'assets/js/util.js' %}"></script>
+<!--[if lte IE 8]><script src="{% static 'assets/js/ie/respond.min.js' %}"></script><![endif]-->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
 
 </body>
 </html>

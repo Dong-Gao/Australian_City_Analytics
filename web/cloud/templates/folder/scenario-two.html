@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
+{% load staticfiles %}
 <html>
 <head>
     <title>Australian City Analytics</title>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!--[if lte IE 8]>
-    <script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="assets/css/main.css"/>
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
+
+    	<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="{%static 'assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="{% static 'assets/css/ie8.css' %}" /><![endif]-->
 </head>
 <body class="homepage">
 <div id="page-wrapper">
@@ -24,8 +24,8 @@
             <nav id="nav">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li  class="current"><a href="scenario-one.html">Scenario One</a></li>
-                    <li><a href="scenario-two.html">Scenario Two</a></li>
+                    <li><a href="scenario-one.html">Scenario One</a></li>
+                    <li class="current"><a href="scenario-two.html">Scenario Two</a></li>
                     <li><a href="scebario-three.html">Scenario Three</a></li>
                     <li><a href="team-member.html">Team Members</a></li>
                 </ul>
@@ -49,50 +49,36 @@
 
 
                     <head>
-                        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                         <script type='text/javascript'>
-                            google.charts.load('current', {packages: ['corechart', 'bar']});
-                            google.charts.setOnLoadCallback(drawMultSeries);
+                            google.charts.load('current', {'packages': ['geochart']});
+                            google.charts.setOnLoadCallback(drawMarkersMap);
 
-                            function drawMultSeries() {
-                                var data = new google.visualization.DataTable();
-                                data.addColumn('timeofday', 'Time of Day');
-                                data.addColumn('number', 'Motivation Level');
-                                data.addColumn('number', 'Energy Level');
-
-                                data.addRows([
-                                    [{v: [8, 0, 0], f: '8 am'}, 1, .25],
-                                    [{v: [9, 0, 0], f: '9 am'}, 2, .5],
-                                    [{v: [10, 0, 0], f:'10 am'}, 3, 1],
-                                    [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
-                                    [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
-                                    [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
-                                    [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
-                                    [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
-                                    [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
-                                    [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
-                                ]);
-
+                            function drawMarkersMap() {
+                                var te = [
+                                    ['City',   'Population','Abc'],
+                                    ['Melbourne', 0.0426,0.00456],
+                                    ['Sydney',0.0523,0.00345],
+                                    ['Brisbane',0.0277,0.00200],
+                                    ['Adelaide',0.0121,0.00189],
+                                    ['Hobart', 0.0276,0.00100],
+                                    ['Canberra',0.0127,0.00234],
+                                    ['Darwin',0.0213,0.00089],
+                                    ['Perth',0.0323,0.00123]
+                                ];
+                                alert(te);
+                                var data = google.visualization.arrayToDataTable(te);
+                                alert(data);
                                 var options = {
-                                    title: 'Motivation and Energy Level Throughout the Day',
-                                    hAxis: {
-                                        title: 'Time of Day',
-                                        format: 'h:mm a',
-                                        viewWindow: {
-                                            min: [7, 30, 0],
-                                            max: [17, 30, 0]
-                                        }
-                                    },
-                                    vAxis: {
-                                        title: 'Rating (scale of 1-10)'
-                                    }
+                                    region: 'AU',
+                                    displayMode: 'markers',
+                                    colorAxis: {colors: ['red', 'blue']}
                                 };
 
-                                var chart = new google.visualization.ColumnChart(
-                                        document.getElementById('chart_div'));
-
+                                var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
                                 chart.draw(data, options);
-                            }
+                            };
                         </script>
                     </head>
                     <body>
@@ -110,7 +96,7 @@
 
                     <!-- Sidebar -->
                     <section class="box">
-                        <a class="image featured"><img src="images/001.png" alt=""/></a>
+                        <a class="image featured"><img src="images/004.png" alt=""/></a>
                         <header>
                             <h3>Beer analytics</h3>
                         </header>
@@ -156,15 +142,16 @@
 
 </div>
 
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.dropotron.min.js"></script>
-<script src="assets/js/skel.min.js"></script>
-<script src="assets/js/skel-viewport.min.js"></script>
-<script src="assets/js/util.js"></script>
-<!--[if lte IE 8]>
-<script src="assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="assets/js/main.js"></script>
+
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+			<script src="{% static 'assets/js/skel.min.js' %}"></script>
+			<script src="{% static 'assets/js/skel-viewport.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<!--[if lte IE 8]><script src="{% static 'assets/js/ie/respond.min.js' %}"></script><![endif]-->
+			<script src="{% static 'assets/js/main.js' %}"></script>
 
 </body>
 </html>

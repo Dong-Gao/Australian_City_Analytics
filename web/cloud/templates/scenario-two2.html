@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+<head>
+    <title>Australian City Anakklics</title>
+
+    <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]>
+    <script src="{% static 'assets/js/ie/html5shiv.js' %}">  alert("ddd")</script><![endif]-->
+    <script src="{% static 'assets/js/ie/html5shiv.js' %}">  alert("ddd")</script><![endif]-->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="{% static 'assets/css/ie8.css' %}"/><![endif]-->
+</head>
+<body class="homepage">
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <div id="header-wrapper">
+        <div id="header">
+
+            <!-- Logo -->
+            <h1><a href="index.html">Australian City Analytics</a></h1>
+
+            <!-- Nav -->
+             <nav id="nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/scenario-one">Scenario One</a></li>
+                    <li class="current">
+                        <a href="#">Scenario Two</a>
+                        <ul>
+                            <li><a href="/scenario-two">Map Chart</a></li>
+                            <li><a href="/scenario-two2">Line Chart</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Scenario Three</a>
+                        <ul>
+                            <li><a href="/scenario-three">Map Chart</a></li>
+                            <li><a href="/scenario-three2">Line Chart</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team-member">Team Members</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+
+    <!-- Main -->
+    <div id="main-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="8u 12u(mobile)">
+                    <!--****************************-->
+
+
+                    <head>
+                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                        <script type="text/javascript">
+                            google.charts.load('current', {'packages': ['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
+
+                            function drawChart() {
+                                var data_from_django = JSON.parse("{{ my_data|escapejs }}");
+                                var data = google.visualization.arrayToDataTable(data_from_django);
+
+                                var options = {
+                                    title: 'Cultural Integration',
+                                    lineWidth: 5,
+                                    curveType: 'function',
+                                    legend: {position: 'bottem'},
+                                    series: {
+                                        0:{ color: '#f1ca3a'},
+                                        1:{color : '#43459d'}
+                                    }
+                                };
+                                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                                chart.draw(data, options);
+                            }
+                        </script>
+                    </head>
+                    <body>
+                    <div id="curve_chart" style="width: auto; height: 500px"></div>
+                    </body>
+
+
+                    <!--****************************-->
+                </div>
+
+          <div class="4u 12u(mobile)">
+
+                    <!-- Sidebar -->
+                    <section class="box">
+                        <a class="image featured"><img src="{% static 'images/004.png' %}" alt=""/></a>
+                        <header>
+                            <h3>Cultural Integration</h3>
+                        </header>
+                        <p>
+                            The scenario tries to analysis if higher proportion of Mandarin-speaking resident cause
+                            more English-speaking residents’ interests of Chinese culture.
+                        </p>
+                        <p>
+                            The result shows proportion of resident who speak Mandarin only at home and proportion of tweets that contain keywords of Chinese culture have an strong
+                            positive relation.
+                        </p>
+                    </section>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <div id="footer-wrapper">
+        <section id="footer" class="container">
+            <div class="row">
+                <div class="12u">
+
+                    <!-- Copyright -->
+                    <div id="copyright">
+                        <ul class="links">
+                            <!--<li>&copy; Team balabal. All rights reserved.</li>-->
+                            <!--<li>Design: <a href="ip">IP</a></li>-->
+                            <li>&copy; Comp 90024 Team 16. All rights reserved.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+<script src="{% static 'assets/js/skel.min.js' %}"></script>
+<script src="{% static 'assets/js/skel-viewport.min.js' %}"></script>
+<script src="{% static 'assets/js/util.js' %}"></script>
+<!--[if lte IE 8]><script src="{% static 'assets/js/ie/respond.min.js' %}"></script><![endif]-->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+</html>
