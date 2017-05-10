@@ -1,0 +1,18 @@
+- hosts: harverstServer
+  become: yes
+  become_user: root
+  tasks:
+  - name: Deployment of harvestServer
+    shell: |
+     apt-get update
+     apt-get install -y python3-pip
+     pip3 install tweepy 
+     pip3 install couchdb 
+     pip3 install simplejson 
+     pip3 install regex 
+     pip3 install vadersentiment
+     pip3 install nltk 
+    
+
+     
+      
