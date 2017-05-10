@@ -11,186 +11,194 @@ cities = ['MEL', 'SYD', 'PER', 'DRW', 'CBR', 'HBA', 'ADL', 'BNE']
 time = ['0-6','6-12','12-18','18-24']
 
 #Drawing a bar chart of average sentiment score for each city
-avgScore = []
-for city in final_result:
-    totals = final_result[city]['0-6']['total']+final_result[city]['6-12']['total']+final_result[city]['12-18']['total']+final_result[city]['18-24']['total']
-    amounts = final_result[city]['0-6']['amount']+final_result[city]['6-12']['amount']+final_result[city]['12-18']['amount']+final_result[city]['18-24']['amount']
-    avg = totals/amounts
-    avgScore.append(avg)
-    print(city)
-    print(avg)
-x=np.arange(8)+1
-y=np.array(list(avgScore))
-plt.bar(x, y, width = 0.5, tick_label=cities)
-plt.xlabel('City')
-plt.ylabel('Score')
-plt.title('Average Sentiment Score')
-for a,b in zip(x, y):
-    plt.text(a, b+0.0025, '%.3f' % b, ha='center', va='bottom',fontsize=8)
-plt.ylim(0, 0.30)
-#plt.legend()
-#plt.plot(x, y, label='First Line')
-plt.show()
-plt.savefig("avg.png")
+def avg():
+    avgScore = []
+    for city in final_result:
+        totals = final_result[city]['0-6']['total'] + final_result[city]['6-12']['total'] + final_result[city]['12-18'][
+            'total'] + final_result[city]['18-24']['total']
+        amounts = final_result[city]['0-6']['amount'] + final_result[city]['6-12']['amount'] + \
+                  final_result[city]['12-18']['amount'] + final_result[city]['18-24']['amount']
+        avg = totals / amounts
+        avgScore.append(avg)
+        print(city)
+        print(avg)
+    x = np.arange(8) + 1
+    y = np.array(list(avgScore))
+    plt.bar(x, y, width=0.5, tick_label=cities)
+    plt.xlabel('City')
+    plt.ylabel('Score')
+    plt.title('Average Sentiment Score')
+    for a, b in zip(x, y):
+        plt.text(a, b + 0.0025, '%.3f' % b, ha='center', va='bottom', fontsize=8)
+    plt.ylim(0, 0.30)
+    # plt.legend()
+    # plt.plot(x, y, label='First Line')
+    plt.show()
+    plt.savefig("avg.png")
 
 
 #Drawing a bar chart of positive/negative percentage for each city
-pos = []
-neg = []
-neu = []
-for city in final_result:
-    amounts = final_result[city]['0-6']['amount'] + final_result[city]['6-12']['amount'] + final_result[city]['12-18']['amount'] + final_result[city]['18-24']['amount']
-    pos_num = final_result[city]['0-6']['positive'] + final_result[city]['6-12']['positive'] + final_result[city]['12-18']['positive'] + final_result[city]['18-24']['positive']
-    neg_num = final_result[city]['0-6']['negative'] + final_result[city]['6-12']['negative'] + final_result[city]['12-18']['negative'] + final_result[city]['18-24']['negative']
-    neu_num = final_result[city]['0-6']['neutral'] + final_result[city]['6-12']['neutral'] + final_result[city]['12-18']['neutral'] + final_result[city]['18-24']['neutral']
-    postive = pos_num/amounts
-    negative = neg_num/amounts
-    neutral = neu_num/amounts
-    pos.append(postive)
-    neg.append(negative)
-    neu.append(neutral)
+def percentage():
+    pos = []
+    neg = []
+    neu = []
+    for city in final_result:
+        amounts = final_result[city]['0-6']['amount'] + final_result[city]['6-12']['amount'] + \
+                  final_result[city]['12-18']['amount'] + final_result[city]['18-24']['amount']
+        pos_num = final_result[city]['0-6']['positive'] + final_result[city]['6-12']['positive'] + \
+                  final_result[city]['12-18']['positive'] + final_result[city]['18-24']['positive']
+        neg_num = final_result[city]['0-6']['negative'] + final_result[city]['6-12']['negative'] + \
+                  final_result[city]['12-18']['negative'] + final_result[city]['18-24']['negative']
+        neu_num = final_result[city]['0-6']['neutral'] + final_result[city]['6-12']['neutral'] + \
+                  final_result[city]['12-18']['neutral'] + final_result[city]['18-24']['neutral']
+        postive = pos_num / amounts
+        negative = neg_num / amounts
+        neutral = neu_num / amounts
+        pos.append(postive)
+        neg.append(negative)
+        neu.append(neutral)
 
-x=np.arange(8)+1
-y1=np.array(list(pos))
-y2=np.array(list(neg))
-y3=np.array(list(neu))
-plt.bar(x, y1, width = 0.5, tick_label=cities, label = 'positive')
-plt.bar(x, y2, width = 0.5, bottom=y1, tick_label=cities, label = 'negative')
-plt.bar(x, y3, width = 0.5, bottom=y1+y2, tick_label=cities, label = 'neutral')
-plt.xlabel('City')
-plt.ylabel('Percentage')
-plt.title('Sentiment Percentage Statistic')
-for a,b in zip(x, y1):
-    plt.text(a, 0.3, '%.3f' % b, ha='center', va='bottom',fontsize=8)
-for a,b in zip(x, y2):
-    plt.text(a, 0.55, '%.3f' % b, ha='center', va='bottom',fontsize=8)
-for a,b in zip(x, y3):
-    plt.text(a, 0.8, '%.3f' % b, ha='center', va='bottom',fontsize=8)
-plt.ylim(0, 1.15)
-plt.yticks(np.linspace(0, 1, 11, endpoint=True))
+    x = np.arange(8) + 1
+    y1 = np.array(list(pos))
+    y2 = np.array(list(neg))
+    y3 = np.array(list(neu))
+    plt.bar(x, y1, width=0.5, tick_label=cities, label='positive')
+    plt.bar(x, y2, width=0.5, bottom=y1, tick_label=cities, label='negative')
+    plt.bar(x, y3, width=0.5, bottom=y1 + y2, tick_label=cities, label='neutral')
+    plt.xlabel('City')
+    plt.ylabel('Percentage')
+    plt.title('Sentiment Percentage Statistic')
+    for a, b in zip(x, y1):
+        plt.text(a, 0.3, '%.3f' % b, ha='center', va='bottom', fontsize=8)
+    for a, b in zip(x, y2):
+        plt.text(a, 0.55, '%.3f' % b, ha='center', va='bottom', fontsize=8)
+    for a, b in zip(x, y3):
+        plt.text(a, 0.8, '%.3f' % b, ha='center', va='bottom', fontsize=8)
+    plt.ylim(0, 1.15)
+    plt.yticks(np.linspace(0, 1, 11, endpoint=True))
 
-plt.legend(loc=9, ncol=3, bbox_to_anchor=(0.5,0.98))
-plt.show()
-plt.savefig("percentage.png")
+    plt.legend(loc=9, ncol=3, bbox_to_anchor=(0.5, 0.98))
+    plt.show()
+    plt.savefig("percentage.png")
+
 
 #Drawing a line chart of Time-Happiness statistics for each city and the average of all cities
-fig, ax = plt.subplots(nrows=3, ncols=3)
-time_score = []
-t1,t2,t3,t4 = 0,0,0,0
-a1,a2,a3,a4 = 0,0,0,0
-for city in final_result:
-    t1 += final_result[city]['0-6']['total']
-    t2 += final_result[city]['6-12']['total']
-    t3 += final_result[city]['12-18']['total']
-    t4 += final_result[city]['18-24']['total']
-    a1 += final_result[city]['0-6']['amount']
-    a2 += final_result[city]['6-12']['amount']
-    a3 += final_result[city]['12-18']['amount']
-    a4 += final_result[city]['18-24']['amount']
-time_score.append([t1/a1, t2/a2, t3/a3, t4/a4])
+def time_happiness():
+    fig, ax = plt.subplots(nrows=3, ncols=3)
+    time_score = []
+    t1, t2, t3, t4 = 0, 0, 0, 0
+    a1, a2, a3, a4 = 0, 0, 0, 0
+    for city in final_result:
+        t1 += final_result[city]['0-6']['total']
+        t2 += final_result[city]['6-12']['total']
+        t3 += final_result[city]['12-18']['total']
+        t4 += final_result[city]['18-24']['total']
+        a1 += final_result[city]['0-6']['amount']
+        a2 += final_result[city]['6-12']['amount']
+        a3 += final_result[city]['12-18']['amount']
+        a4 += final_result[city]['18-24']['amount']
+    time_score.append([t1 / a1, t2 / a2, t3 / a3, t4 / a4])
 
-for city in scoreResult:
-    temp = []
-    temp.append(scoreResult[city]['0-6'])
-    temp.append(scoreResult[city]['6-12'])
-    temp.append(scoreResult[city]['12-18'])
-    temp.append(scoreResult[city]['18-24'])
-    time_score.append(temp)
+    for city in scoreResult:
+        temp = []
+        temp.append(scoreResult[city]['0-6'])
+        temp.append(scoreResult[city]['6-12'])
+        temp.append(scoreResult[city]['12-18'])
+        temp.append(scoreResult[city]['18-24'])
+        time_score.append(temp)
 
-plt.suptitle("Time Score Statistic")
-plt.subplot(3, 3, 1)
-x=np.arange(4)+1
-y1 = time_score[0]
-plt.plot(x, y1,marker='x')
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('All Cities',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.suptitle("Time Score Statistic")
+    plt.subplot(3, 3, 1)
+    x = np.arange(4) + 1
+    y1 = time_score[0]
+    plt.plot(x, y1, marker='x')
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('All Cities', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 2)
-y2 = time_score[1]
-plt.plot(x, y2)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('MEL',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 2)
+    y2 = time_score[1]
+    plt.plot(x, y2)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('MEL', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 3)
-y3 = time_score[2]
-plt.plot(x, y3)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('SYD',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 3)
+    y3 = time_score[2]
+    plt.plot(x, y3)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('SYD', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 4)
-y4 = time_score[3]
-plt.plot(x, y4)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('PER',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 4)
+    y4 = time_score[3]
+    plt.plot(x, y4)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('PER', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 5)
-y5 = time_score[4]
-plt.plot(x, y5)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('DRW',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 5)
+    y5 = time_score[4]
+    plt.plot(x, y5)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('DRW', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 6)
-y6 = time_score[5]
-plt.plot(x, y6)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('CBR',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 6)
+    y6 = time_score[5]
+    plt.plot(x, y6)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('CBR', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 7)
-y7 = time_score[6]
-plt.plot(x, y7)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('HBA',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 7)
+    y7 = time_score[6]
+    plt.plot(x, y7)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('HBA', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 8)
-y8 = time_score[7]
-plt.plot(x, y8)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('ADL',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 8)
+    y8 = time_score[7]
+    plt.plot(x, y8)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('ADL', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-plt.subplot(3, 3, 9)
-y9 = time_score[8]
-plt.plot(x, y9)
-plt.xlabel('Time',fontsize=8)
-plt.ylabel('Score',fontsize=8)
-plt.title('BNE',fontsize=8)
-plt.xticks(x, time,fontsize=8)
-plt.ylim(0.19,0.24)
-plt.yticks(np.linspace(0.19,0.24, 6, endpoint=True),fontsize=8)
+    plt.subplot(3, 3, 9)
+    y9 = time_score[8]
+    plt.plot(x, y9)
+    plt.xlabel('Time', fontsize=8)
+    plt.ylabel('Score', fontsize=8)
+    plt.title('BNE', fontsize=8)
+    plt.xticks(x, time, fontsize=8)
+    plt.ylim(0.19, 0.24)
+    plt.yticks(np.linspace(0.19, 0.24, 6, endpoint=True), fontsize=8)
 
-fig.tight_layout()
-plt.show()
-plt.savefig("time_happiness.png")
-
-
+    fig.tight_layout()
+    plt.show()
+    plt.savefig("time_happiness.png")
