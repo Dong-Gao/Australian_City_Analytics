@@ -1,5 +1,5 @@
 import json
-
+ #Find the tweets with coordinates and store them
 filesource = open('status.json', 'r', encoding='utf-8')
 file = open('corrdinateData.json', 'a', encoding='utf-8')
 count = 0
@@ -12,7 +12,6 @@ for line in filesource:
         continue
     if tweet['location'] == '':
         continue
-    #Find the tweets with coordinates and store them
     if tweet['coordinates'] != None:
         #print(tweet)
         str = json.dumps(tweet, ensure_ascii=False)
@@ -24,6 +23,7 @@ filesource.close()
 file.close()
 print(count)
 
+ #Find the tweets having coordinates which is within the range of these 8 cities.
 coordinates = {'Melbourne':(144.9631, -37.8136),'Sydney':(151.2093, -33.8688),'Perth':(115.8605, -31.9505),'Darwin':(130.8456, -12.4634),'Canberra':(149.1300, -35.2809),'Hobart':(147.3272, -42.8821),'Adelaide':(138.6007, -34.9285),'Brisbane':(153.0251, -27.4698)}
 filesource = open('corrdinateData.json', 'r', encoding='utf-8')
 file = open('suburbData.json', 'a', encoding='utf-8')
