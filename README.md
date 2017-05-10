@@ -16,10 +16,13 @@ suburb_analysis.py: Input is a tweet, and the output is the corresponding suburb
 result_plots.py: According to final results, drawing plots using matplotlib library.<br>
 
 ### Scenario 2: Cultural Integration
-
+The Cultural Integration Scenario is made by KaiLe Wei.<br>
+This document include one cultural.py, and a text file keywords.txt.<br>
+The py file is the function of cultural integration  scenario, and the txt file stores the keywords of the function.<br>
+There are two executable functions, culture_per(tweet,result) for single tweet analysis, and culture_file() for json file analysis.
 
 ### Scenario 3: Alcohol-Tobacco
-The Alcohol-Tobacco Scenario is made by Nanjiang.<br>
+The Alcohol-Tobacco Scenario is made by Nanjiang Li.<br>
 This document include one smoke_drink.py, and a text file smoke.txt.<br>
 The py file is the function of alcohol-tobacco scenario, and the txt file stores the keywords of the function.<br>
 There are two executable functions, smoke_Drink_per(tweet,result) for single tweet analysis, and smoke_Drink() for json file analysis.
@@ -41,7 +44,7 @@ You can visit our interface through: 115.146.91.76:8000
 ## Deployment
 There are several files in this folders for the launching and depolying process.<br>
 File setupbash.sh: a bash file to run the lanuching and deploying process. <br>
-file dbSetup.yaml : a yaml file for ansible-playbook to deploying the database instances on nectar.<br>
+File dbSetup.yaml : a yaml file for ansible-playbook to deploying the database instances on nectar.<br>
 File serSetup.yaml : a yaml file for ansible-playbook to deploying the processing server instances on nectar.<br>
 File hosts: stort the instance's configuration information.<br>
 nectarConf.sh : configuration of nectar project for ansible to connect to server.<br>
