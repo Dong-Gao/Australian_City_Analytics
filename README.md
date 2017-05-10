@@ -47,7 +47,7 @@ Figure 4: Time Score Statistic<br>
 The Cultural Integration Scenario is made by KaiLe Wei.<br>
 This document include one cultural.py, and a text file keywords.txt.<br>
 The py file is the function of cultural integration  scenario, and the txt file stores the keywords of the function.<br>
-There are two executable functions, culture_per(tweet,result) for single tweet analysis, and culture_file() for json file analysis.
+There are two executable functions, culture_per(tweet,result) for single tweet analysis, and culture_file() for json file analysis.<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig5.png)<br>
 Figure 5: Chart of Ra and Rb(b)<br>
 ### 2.4 Scenario 3: Alcohol-Tobacco
