@@ -1,9 +1,9 @@
 # COMP90024 Cluster and Cloud Computing Assignment2 - Australian City Analytics
 #### Authors:
-    HongZhen Xie:
+    HongZhen Xie: 773383
     Dong Gao: 795622
-    NanJiang Li:
-    KaiLe Wei:
+    NanJiang Li: 741524
+    KaiLe Wei: 812381
     Chuang Ying: 844566
 ## Scenarios Exploration
 ### Scenario 1: A series of sentiment scenarios
