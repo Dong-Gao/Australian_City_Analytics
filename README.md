@@ -3,7 +3,7 @@
     HongZhen Xie:
     Dong Gao: 795622
     NanJiang Li:
-    KaiLe Wei:
+    KaiLe Wei:
     Chuang Ying: 844566
 ## Scenarios Exploration
 ### Scenario 1: A series of sentiment scenarios
