@@ -64,7 +64,7 @@ To run this web interface: <br>
 A Django packages are required and also apache service should open for running this web interface.<br>
 Before running, the allow_host should add its IP address.  <br>
 To run this interface,  you should run :  python manage.py run server.<br>
-You can visit our interface through: 115.146.91.76:8000
+You can visit our interface through: [115.146.91.76:8000](115.146.91.76:8000)  
 
 
 
