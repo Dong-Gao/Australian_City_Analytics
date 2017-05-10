@@ -54,7 +54,7 @@ Figure 5: Chart of Ra and Rb(b)<br>
 The Alcohol-Tobacco Scenario is made by Nanjiang Li.<br>
 This document include one smoke_drink.py, and a text file smoke.txt.<br>
 The py file is the function of alcohol-tobacco scenario, and the txt file stores the keywords of the function.<br>
-There are two executable functions, smoke_Drink_per(tweet,result) for single tweet analysis, and smoke_Drink() for json file analysis.
+There are two executable functions, smoke_Drink_per(tweet,result) for single tweet analysis, and smoke_Drink() for json file analysis.<br>
 ![](https://github.com/haluokele/Australian_City_Analytics/blob/master/readme_images/fig6.png)<br>
 Figure 6: Female Rate & Negative Rate<br>
 ## 3. Web
