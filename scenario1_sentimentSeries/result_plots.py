@@ -38,7 +38,6 @@ plt.savefig("avg.png")
 pos = []
 neg = []
 neu = []
-
 for city in final_result:
     amounts = final_result[city]['0-6']['amount'] + final_result[city]['6-12']['amount'] + final_result[city]['12-18']['amount'] + final_result[city]['18-24']['amount']
     pos_num = final_result[city]['0-6']['positive'] + final_result[city]['6-12']['positive'] + final_result[city]['12-18']['positive'] + final_result[city]['18-24']['positive']
