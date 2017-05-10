@@ -121,6 +121,17 @@ def count_emojis(text):
         count += len(re.findall(regx, text))
     return count
 
+def emotion_list():
+    emotion_score={'Melbourne':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Sydney':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Perth':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Darwin':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Canberra':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Hobart':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Adelaide':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}},
+          'Brisbane':{'0-6':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'6-12':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'12-18':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0},'18-24':{'total':0, 'amount':0, 'positive':0, 'negative':0, 'neutral':0}}}
+    return emotion_score
+
 #This function is used to pre-process tweet and return its sentiment value.
 def sentiment_score(analyzer, tweet_text):
     tweet_text = process_urls(tweet_text)
@@ -236,4 +247,36 @@ def sentiment_analy(analyzer, tweet, emotionResult):
         else:
             emotionResult[i]['18-24']['score'] = emotionResult[i]['18-24']['total'] / emotionResult[i]['18-24'][
                 'amount']
+    return emotionResult
+
+#This function is used for multi-tweet analysis, used a json file as the input, and return the statistics as the output.
+def sentiment_all(emotionResult):
+    emotion_data = emotion_list()
+    filesource = open('status.json', 'r', encoding='utf-8')
+    analyzer = SentimentIntensityAnalyzer()
+    count = 0
+    for line in filesource:
+        tweet = json.loads(line)
+        count += 1
+        if count % 100000 == 0:
+            print(emotion_data)
+        try:
+            tweet['location']
+        except:
+            #print(tweet)
+            continue
+        if tweet['location'] == '':
+            continue
+        sentiment_statistic(analyzer, tweet, emotion_data)
+    for i in emotionResult:
+        emotionResult[i]['0-6'] = emotion_data[i]['0-6']['total'] / emotion_data[i]['0-6']['amount']
+        emotionResult[i]['6-12'] = emotion_data[i]['6-12']['total'] / emotion_data[i]['6-12']['amount']
+        emotionResult[i]['12-18'] = emotion_data[i]['12-18']['total'] / emotion_data[i]['12-18']['amount']
+        emotionResult[i]['18-24'] = emotion_data[i]['18-24']['total'] / emotion_data[i]['18-24']['amount']
+        print(i)
+        print(emotion_data[i])
+    amount = 0
+    for i in emotion_data:
+        amount += emotion_data[i]['0-6']['amount'] + emotion_data[i]['6-12']['amount']+emotion_data[i]['12-18']['amount']+emotion_data[i]['18-24']['amount']
+    print("Total tweets:", amount)
     return emotionResult
