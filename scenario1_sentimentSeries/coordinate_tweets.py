@@ -1,3 +1,13 @@
+# Cluster and Cloud Computing
+# Group Project
+# Team 16
+#
+# Kaile Wei: 812381
+# Nanjiang Li: 741524
+# Hongzhen Xie: 773383
+# Dong Gao: 795622
+# Chuang Ying: 844566
+
 import json
 #This function is for finding the tweets with coordinates and store them.
 def tweet_coor():

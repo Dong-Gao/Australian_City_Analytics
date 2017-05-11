@@ -1,3 +1,13 @@
+# Cluster and Cloud Computing
+# Group Project
+# Team 16
+#
+# Kaile Wei: 812381
+# Nanjiang Li: 741524
+# Hongzhen Xie: 773383
+# Dong Gao: 795622
+# Chuang Ying: 844566
+
 import couchdb
 import json
 import queue
@@ -456,10 +466,10 @@ try:
                         try:
                             db.save(saveDict) # save to database
                         except Exception as e:
-                            print(e,sys._getframe().f_lineno)     
+                            print(e,sys._getframe().f_lineno)
                     break
                 # error too many requests
-                except tweepy.error.RateLimitError as e:                    
+                except tweepy.error.RateLimitError as e:
                     accountPos = accountPos + 1
                     accountPos = accountPos % len(accounts)
                     time.sleep(5)
