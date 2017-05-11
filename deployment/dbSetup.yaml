@@ -1,3 +1,11 @@
+#This file is used for install couchdb
+#team-number:ccc-team16
+#HongZhen Xie: 773383
+#Dong Gao: 795622
+#NanJiang Li: 741524
+#KaiLe Wei: 812381
+#Chuang Ying: 844566
+
 - hosts: database
   become: yes
   become_user: root

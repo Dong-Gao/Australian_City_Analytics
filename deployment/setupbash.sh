@@ -2,7 +2,12 @@
 
 #this file is used for launching instances on nectar and 
 #deploying instances  with necassary packages
-# version 2.0 by hongzhenx-773383
+#team-number:ccc-team16
+#HongZhen Xie: 773383
+#Dong Gao: 795622
+#NanJiang Li: 741524
+#KaiLe Wei: 812381
+#Chuang Ying: 844566
 
 
 echo "Enter the name of new instance you want to lanuch:"

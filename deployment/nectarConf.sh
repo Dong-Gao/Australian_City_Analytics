@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#team-number:ccc-team16
+#HongZhen Xie: 773383
+#Dong Gao: 795622
+#NanJiang Li: 741524
+#KaiLe Wei: 812381
+#Chuang Ying: 844566
+
 # To use an OpenStack cloud you need to authenticate against the Identity
 # service named keystone, which returns a **Token** and **Service Catalog**.
 # The catalog contains the endpoints for all services the user/tenant has
@@ -11,6 +18,9 @@
 # OpenStack API is version 2.0. For example, your cloud provider may implement
 # Image API v1.1, Block Storage API v2, and Compute API v2.0. OS_AUTH_URL is
 # only for the Identity API served through keystone.
+
+
+
 export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v2.0/
 
 # With the addition of Keystone we have standardized on the term **tenant**
